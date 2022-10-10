@@ -8,6 +8,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.dart';
+import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_api_headers/google_api_headers.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -27,6 +28,8 @@ class AddeventsWidget extends StatefulWidget {
 
 class _AddeventsWidgetState extends State<AddeventsWidget> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  Geoflutterfire geo = Geoflutterfire();
+  GeoFirePoint myLocation;
   final reference = FirebaseDatabase.instance;
   bool servicestatus = false;
   bool haspermission = false;
@@ -454,7 +457,7 @@ class _AddeventsWidgetState extends State<AddeventsWidget> {
                             final lat = geometry.location.lat;
                             final lang = geometry.location.lng;
                             newlatlang = LatLng(lat, lang);
-
+                            myLocation = geo.point(latitude: lat, longitude: lang);
                             //move map camera to selected place with animation
                             mapController?.animateCamera(
                                 CameraUpdate.newCameraPosition(CameraPosition(
