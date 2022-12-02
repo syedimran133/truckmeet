@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:truckmeet/src/screens/MyNavigationBar.dart';
 import 'package:truckmeet/src/screens/Setting.dart';
 
+import '../events/TruckList.dart';
+
 class AddTruckDetailsWidget extends StatefulWidget {
   const AddTruckDetailsWidget({Key key}) : super(key: key);
 
@@ -442,7 +444,12 @@ class _AddTruckDetailsWidgetState extends State<AddTruckDetailsWidget> {
                             "description": textController4.value.text
                           }).asStream();
 
-                          Navigator.pop(context);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => TruckList(),
+                            ),
+                          );
                           ScaffoldMessenger.of(context)
                               .showSnackBar(const SnackBar(
                             content:

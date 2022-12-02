@@ -33,7 +33,15 @@ class _EmployeeListViewState extends State<EmployeeListView> {
       _key=_keys[0];
     });
   }
-
+  _delete(String id) async {
+    await DatabaseService.eventDelete(id);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => EmployeeListView(),
+      ),
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -130,6 +138,22 @@ class _EmployeeListViewState extends State<EmployeeListView> {
                                 fontWeight: FontWeight.w300,
                               ),
                             )),
+                        Padding(
+                          padding:
+                          const EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
+                          child: ElevatedButton(
+                            onPressed: () {
+                              _key = _keys[index];
+                              print("Button pressed ...$_key");
+                              showAlertDialog(context, _key);
+                            },
+                            child: const Text('DELETE'),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                              Colors.red, // This is what you need!
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -140,6 +164,38 @@ class _EmployeeListViewState extends State<EmployeeListView> {
 
         },
       ),
+    );
+  }
+  showAlertDialog(BuildContext context, String key) {
+    Widget okButton = TextButton(
+      child: const Text("Delete"),
+      onPressed: () {
+        Navigator.of(context).pop(); // dismiss dialog
+        print("Button pressed ...$_key");
+        _delete(key);
+      },
+    );
+    Widget cancelButton = TextButton(
+      child: const Text("Cancel"),
+      onPressed: () {
+        Navigator.of(context).pop(); // dismiss dialog
+        //launchMissile();
+      },
+    );
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: const Text("Alert"),
+      content: const Text("Are you sure do you want to delete?"),
+      actions: [
+        cancelButton,
+        okButton,
+      ],
+    );
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 }

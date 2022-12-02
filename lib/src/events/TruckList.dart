@@ -14,8 +14,9 @@ class TruckList extends StatefulWidget {
 class _TruckListState extends State<TruckList> {
   List<TruckData> _emp = [];
   List<String> _keys = [];
-  String _key="";
+  String _key = "";
   final databaseReference = FirebaseDatabase.instance.reference();
+  bool _flag = true;
 
   @override
   void initState() {
@@ -28,9 +29,19 @@ class _TruckListState extends State<TruckList> {
     List<String> eventKeys = await DatabaseService.getTrucksKey();
     setState(() {
       _emp = empList;
-      _keys=eventKeys;
-      _key=_keys[0];
+      _keys = eventKeys;
+      _key = _keys[0];
     });
+  }
+
+  _delete(String id) async {
+    await DatabaseService.trucksDelete(id);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => TruckList(),
+      ),
+    );
   }
 
   @override
@@ -43,9 +54,7 @@ class _TruckListState extends State<TruckList> {
       ),
       body: ListView.builder(
         itemCount: _emp.length,
-
         itemBuilder: (context, int index) {
-
           final TruckData parents = _emp[index];
           final String name = parents.model;
           final String place = parents.hq;
@@ -56,11 +65,13 @@ class _TruckListState extends State<TruckList> {
           // final String parentUID = parents.uid;
           return GestureDetector(
             onTap: () {
-              _key=_keys[index];
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => TruckDetailsEdit(parents,_key)));
+              _key = _keys[index];
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => TruckDetailsEdit(parents, _key)));
             },
-            child:  Card(
+            child: Card(
               clipBehavior: Clip.antiAliasWithSaveLayer,
               color: Color(0xFF242526),
               elevation: 7,
@@ -85,72 +96,71 @@ class _TruckListState extends State<TruckList> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(15, 0, 0, 0),
+                    padding: EdgeInsetsDirectional.fromSTEB(15, 15, 0, 10),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SelectionArea(
                             child: Text(
-                              name+"("+truck_transmission+")",
-                              style:TextStyle(
-                                fontFamily: 'Poppins',
-                                color:Colors.white,
-                              ),
-                            )),
-                        SelectionArea(
-                            child: Text(
-                              description,
-                              style: TextStyle(
-                                fontFamily: 'Poppins',
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            )),
-                        SelectionArea(
-                            child: Text(
-                              startDate,
-                              style: TextStyle(
-                                fontFamily: 'Poppins',
-                                color: Colors.white,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w300,
-                              ),
-                            )),
-                        SelectionArea(
-                            child: Text(
-                              place,
-                              overflow: TextOverflow.fade,
-                              maxLines: 4,
-                              softWrap: true,
-                              style: TextStyle(
-                                fontFamily: 'Poppins',
-                                color: Colors.white,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w300,
-                              ),
-                            )),
-      /*                  Padding(
+                          name + "(" + truck_transmission + ")",
+                          style: TextStyle(
+                            fontFamily: 'Poppins',
+                            color: Colors.white,
+                          ),
+                        )),
+                        Padding(
                           padding:
-                          const EdgeInsetsDirectional.fromSTEB(0, 10, 0, 10),
+                              const EdgeInsetsDirectional.fromSTEB(0, 5, 0, 5),
+                          child: SelectionArea(
+                              child: Text(
+                            description,
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          )),
+                        ),
+                        SelectionArea(
+                            child: Text(
+                          startDate,
+                          style: TextStyle(
+                            fontFamily: 'Poppins',
+                            color: Colors.white,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w300,
+                          ),
+                        )),
+                        SelectionArea(
+                            child: Text(
+                          place,
+                          overflow: TextOverflow.fade,
+                          maxLines: 4,
+                          softWrap: true,
+                          style: TextStyle(
+                            fontFamily: 'Poppins',
+                            color: Colors.white,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w300,
+                          ),
+                        )),
+                        Padding(
+                          padding:
+                              const EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
                           child: ElevatedButton(
                             onPressed: () {
-                              print('Button pressed ...');
+                              _key = _keys[index];
+                              print("Button pressed ...$_key");
+                              showAlertDialog(context, _key);
                             },
-                            style: ElevatedButton.styleFrom(
-                              //minimumSize: const Size.fromHeight(40),
-                              backgroundColor: Color(0xFF941414),
-                              foregroundColor: Colors.white,
-                              textStyle: const TextStyle(
-                                fontFamily: 'Poppins',
-                                color: Colors.white,
-                                fontSize: 14,
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ),
                             child: const Text('DELETE'),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  Colors.red, // This is what you need!
+                            ),
                           ),
-                        ),*/
+                        ),
                       ],
                     ),
                   ),
@@ -158,9 +168,41 @@ class _TruckListState extends State<TruckList> {
               ),
             ),
           );
-
         },
       ),
+    );
+  }
+
+  showAlertDialog(BuildContext context, String key) {
+    Widget okButton = TextButton(
+      child: const Text("Delete"),
+      onPressed: () {
+        Navigator.of(context).pop(); // dismiss dialog
+        print("Button pressed ...$_key");
+        _delete(key);
+      },
+    );
+    Widget cancelButton = TextButton(
+      child: const Text("Cancel"),
+      onPressed: () {
+        Navigator.of(context).pop(); // dismiss dialog
+        //launchMissile();
+      },
+    );
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: const Text("Alert"),
+      content: const Text("Are you sure do you want to delete?"),
+      actions: [
+        cancelButton,
+        okButton,
+      ],
+    );
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 }

@@ -80,4 +80,16 @@ class DatabaseService {
     });
     return list;
   }
+
+  static Future trucksDelete(String id) async {
+    final User user = FirebaseAuth.instance.currentUser;
+    final uid = user.uid;
+    await FirebaseDatabase.instance.ref("truck/$uid/$id").remove();
+  }
+
+  static Future eventDelete(String id) async {
+    final User user = FirebaseAuth.instance.currentUser;
+    final uid = user.uid;
+    await FirebaseDatabase.instance.ref("events/$uid/$id").remove();
+  }
 }

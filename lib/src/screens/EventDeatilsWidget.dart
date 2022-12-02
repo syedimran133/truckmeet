@@ -12,16 +12,9 @@ class EventDeatilsWidget extends StatefulWidget {
 class _EventDeatilsWidgetState extends State<EventDeatilsWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 @override
-  Future<void> initState() async {
-    super.initState();
-    final ref = FirebaseDatabase.instance.ref();
-    final snapshot = await ref.child('users').get();
-    if (snapshot.exists) {
-      print(snapshot.value);
-    } else {
-      print('No data available.');
-    }
-  }
+void initState() {
+  super.initState();
+}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
