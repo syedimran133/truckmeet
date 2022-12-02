@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -59,8 +60,8 @@ class _DashboardWidgetState extends State<DashboardWidget> {
         position: showLocation, //position of marker
         infoWindow: InfoWindow(
           //popup info
-          title: 'Marker Title First ',
-          snippet: 'My Custom Subtitle',
+          title: 'Delhi Truck Meet',
+          snippet: 'XYZ Truck Meet',
         ),
         icon: BitmapDescriptor.defaultMarker, //Icon for Marker
       ));
@@ -71,8 +72,8 @@ class _DashboardWidgetState extends State<DashboardWidget> {
         position: LatLng(27.7099116, 85.3132343), //position of marker
         infoWindow: InfoWindow(
           //popup info
-          title: 'Marker Title Second ',
-          snippet: 'My Custom Subtitle',
+          title: 'Truck Meet',
+          snippet: 'Truck Meet',
         ),
         icon: BitmapDescriptor.defaultMarker, //Icon for Marker
       ));
@@ -83,8 +84,8 @@ class _DashboardWidgetState extends State<DashboardWidget> {
         position: LatLng(27.7137735, 85.315626), //position of marker
         infoWindow: InfoWindow(
           //popup info
-          title: 'Marker Title Third ',
-          snippet: 'My Custom Subtitle',
+          title: 'ABC Truck Meet',
+          snippet: 'Truck Meet',
         ),
         icon: BitmapDescriptor.defaultMarker, //Icon for Marker
       ));
@@ -94,4 +95,10 @@ class _DashboardWidgetState extends State<DashboardWidget> {
 
     return markers;
   }
+/*
+  void readData(){
+    FirebaseDatabase.instance..reference().ch.then((DataSnapshot snapshot) {
+      print('Data : ${snapshot.value}');
+    });
+  }*/
 }

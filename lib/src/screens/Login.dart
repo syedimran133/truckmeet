@@ -84,6 +84,7 @@ class _Login extends State<Login> {
         "loginDate": formattedDate,
         "phone": finalResult.user.phoneNumber,
         "userType": "user",
+        "uid": uid,
         "device": "Android",
         "subscribed": "No",
       }).asStream();
@@ -136,7 +137,7 @@ class _Login extends State<Login> {
                   const Padding(
                     padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
                     child: Text(
-                      'SIgn in to your\naccout.',
+                      'Sign in to your\naccount .',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontFamily: 'Poppins',
@@ -148,8 +149,8 @@ class _Login extends State<Login> {
                   ),
                   Image.asset(
                     'images/logo.jpeg',
-                    //width: MediaQuery.of(context).size.width * 0.6,
-                    height: MediaQuery.of(context).size.height * 0.2,
+                    width: MediaQuery.of(context).size.width * 0.8,
+                    //height: MediaQuery.of(context).size.height * 0.2,
                     fit: BoxFit.fill,
                   ),
                   Padding(

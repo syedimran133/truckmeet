@@ -136,7 +136,8 @@ class _SignupWidgetState extends State<SignupWidget> {
                         ),
                         Image.asset(
                           'images/logo.jpeg',
-                          height: MediaQuery.of(context).size.height * 0.2,
+                          width: MediaQuery.of(context).size.width * 0.8,
+                          //height: MediaQuery.of(context).size.height * 0.2,
                           fit: BoxFit.fill,
                         ),
                         TextFormField(
@@ -506,6 +507,7 @@ class _SignupWidgetState extends State<SignupWidget> {
                                                 "phone": tc_phone?.value.text,
                                                 "userType": "user",
                                                 "device": "Android",
+                                                "uid": uid,
                                                 "subscribed": "No",
                                               }).asStream(),
                                               ScaffoldMessenger.of(context)
@@ -548,7 +550,7 @@ class _SignupWidgetState extends State<SignupWidget> {
                         const Padding(
                           padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
                           child: Text(
-                            'By clicking you agree with our Terms of\nUsagew and Privacy Policy',
+                            'By clicking you agree with our Terms of\n Usage and Privacy Policy',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontFamily: 'Poppins',

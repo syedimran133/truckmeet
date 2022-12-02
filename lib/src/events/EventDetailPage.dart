@@ -21,14 +21,20 @@ import 'package:path/path.dart' as path;
 import 'package:permission_handler/permission_handler.dart';
 import 'package:truckmeet/src/screens/MyNavigationBar.dart';
 
-class AddeventsWidget extends StatefulWidget {
-  const AddeventsWidget({Key key}) : super(key: key);
+import 'EmployeeListView.dart';
+import 'EventsData.dart';
+
+class EventsDetailPage extends StatefulWidget {
+
+  EventsData model;
+  String e_key;
+  EventsDetailPage(this.model,this.e_key, {Key key}) : super(key: key);
 
   @override
-  _AddeventsWidgetState createState() => _AddeventsWidgetState();
+  _DetailPageState createState() => _DetailPageState();
 }
 
-class _AddeventsWidgetState extends State<AddeventsWidget> {
+class _DetailPageState extends State<EventsDetailPage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   Geoflutterfire geo = Geoflutterfire();
   GeoFirePoint myLocation;
@@ -48,7 +54,11 @@ class _AddeventsWidgetState extends State<AddeventsWidget> {
   bool switchListTileValue;
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
+  String name = "";
+  String decs = "";
   String newValue = "Meet";
+  String id = "";
+
   String value2 = "I am the Host";
   String start_date = "Start Date";
   String start_time = "Start Time";
@@ -61,99 +71,40 @@ class _AddeventsWidgetState extends State<AddeventsWidget> {
   LatLng newlatlang = LatLng(27.6602292, 85.308027);
   String location = "Location";
 
+  get e_key => this.e_key;
+
   @override
   void initState() {
     super.initState();
     textController1 = TextEditingController();
     textController2 = TextEditingController();
     textController3 = TextEditingController();
-    //imagePicker = new ImagePicker();
-    checkGps();
-  }
-
-  checkGps() async {
-    servicestatus = await Geolocator.isLocationServiceEnabled();
-    if (servicestatus) {
-      permission = await Geolocator.checkPermission();
-
-      if (permission == LocationPermission.denied) {
-        permission = await Geolocator.requestPermission();
-        if (permission == LocationPermission.denied) {
-          print('Location permissions are denied');
-        } else if (permission == LocationPermission.deniedForever) {
-          print("'Location permissions are permanently denied");
-        } else {
-          haspermission = true;
-        }
-      } else {
-        haspermission = true;
-      }
-
-      if (haspermission) {
-        setState(() {
-          //refresh the UI
-        });
-
-        getLocation();
-      }
-    } else {
-      print("GPS Service is not enabled, turn on GPS location");
-    }
-
-    setState(() {
-      //refresh the UI
-    });
-  }
-
-  getLocation() async {
-    position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
-    print(position.longitude); //Output: 80.24599079
-    print(position.latitude); //Output: 29.6593457
-
-    long = position.longitude.toString();
-    lat = position.latitude.toString();
-
-    setState(() {
-      //refresh UI
-    });
-
-    LocationSettings locationSettings = LocationSettings(
-      accuracy: LocationAccuracy.high, //accuracy of the location data
-      distanceFilter: 100, //minimum distance (measured in meters) a
-      //device must move horizontally before an update event is generated;
-    );
-
-    StreamSubscription<Position> positionStream =
-        Geolocator.getPositionStream(locationSettings: locationSettings)
-            .listen((Position position) {
-      print(position.longitude); //Output: 80.24599079
-      print(position.latitude); //Output: 29.6593457
-
-      long = position.longitude.toString();
-      lat = position.latitude.toString();
-
-      setState(() {
-        //refresh UI on update
-      });
-    });
-  }
-
-  @override
-  void dispose() {
-    textController1?.dispose();
-    textController2?.dispose();
-    textController3?.dispose();
-    super.dispose();
+    newValue = widget.model.meet_type.toString();
+    value2 = widget.model.event_type.toString();
+    start_date =widget.model.start_date.toString();
+    start_time = widget.model.start_time.toString();
+    end_date = widget.model.end_date.toString();
+    end_time = widget.model.end_time.toString();
+    location = widget.model.location.toString();
+    name = widget.model.name.toString();
+    decs = widget.model.description.toString();
+    textController1.text=name;
+    textController2.text=decs;
+    newlatlang = LatLng(widget.model.Latitude, widget.model.Longitude);
+    switchListTileValue=widget.model.allday;
+    id=widget.e_key;
   }
 
   @override
   Widget build(BuildContext context) {
-    final ref = reference.ref();
     return Scaffold(
       resizeToAvoidBottomInset: false,
       key: scaffoldKey,
       backgroundColor: Colors.black,
+      appBar: AppBar(
+        title: Text('Edit Event'),
+        backgroundColor: Colors.black,
+      ),
       body: Form(
         key: _formkey,
         child: GestureDetector(
@@ -162,22 +113,11 @@ class _AddeventsWidgetState extends State<AddeventsWidget> {
             child: Column(
               mainAxisSize: MainAxisSize.max,
               children: [
-                const Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0, 40, 0, 0),
-                  child: Text(
-                    'Add Event',
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      color: Colors.white,
-                      fontSize: 20,
-                    ),
-                  ),
-                ),
                 Align(
                   alignment: const AlignmentDirectional(0, 0),
                   child: Padding(
                       padding:
-                          const EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
+                      const EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
                       child: InkWell(
                         onTap: () {
                           //_handleURLButtonPress(context, ImageSourceType.gallery);
@@ -241,7 +181,7 @@ class _AddeventsWidgetState extends State<AddeventsWidget> {
                                 });
                               },
                               icon: const Padding(
-                                  //Icon at tail, arrow bottom is default icon
+                                //Icon at tail, arrow bottom is default icon
                                   padding: EdgeInsets.only(left: 20),
                                   child: Icon(Icons.arrow_drop_down)),
                               iconEnabledColor: Colors.black,
@@ -302,7 +242,7 @@ class _AddeventsWidgetState extends State<AddeventsWidget> {
                                 });
                               },
                               icon: const Padding(
-                                  //Icon at tail, arrow bottom is default icon
+                                //Icon at tail, arrow bottom is default icon
                                   padding: EdgeInsets.only(left: 20),
                                   child: Icon(Icons.arrow_drop_down)),
                               iconEnabledColor: Colors.black,
@@ -325,6 +265,7 @@ class _AddeventsWidgetState extends State<AddeventsWidget> {
                 Padding(
                   padding: const EdgeInsetsDirectional.fromSTEB(25, 10, 25, 0),
                   child: TextFormField(
+
                     controller: textController1,
                     autofocus: true,
                     obscureText: false,
@@ -454,7 +395,7 @@ class _AddeventsWidgetState extends State<AddeventsWidget> {
                             );
                             String placeid = place.placeId ?? "0";
                             final detail =
-                                await plist.getDetailsByPlaceId(placeid);
+                            await plist.getDetailsByPlaceId(placeid);
                             final geometry = detail.result.geometry;
                             final lat = geometry.location.lat;
                             final lang = geometry.location.lng;
@@ -520,7 +461,7 @@ class _AddeventsWidgetState extends State<AddeventsWidget> {
                     children: [
                       Padding(
                         padding:
-                            const EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
+                        const EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
                         child: SizedBox(
                           height: 50,
                           width: 160,
@@ -542,7 +483,7 @@ class _AddeventsWidgetState extends State<AddeventsWidget> {
                                   print(pickedDate);
                                 } //pickedDate output format => 2021-03-10 00:00:00.000
                                 String formattedDate =
-                                    DateFormat('yyyy-MM-dd').format(pickedDate);
+                                DateFormat('yyyy-MM-dd').format(pickedDate);
                                 if (kDebugMode) {
                                   print(formattedDate);
                                 } //formatted date output using intl package =>  2021-03-16
@@ -562,7 +503,7 @@ class _AddeventsWidgetState extends State<AddeventsWidget> {
                               ),
                               shape: RoundedRectangleBorder(
                                 borderRadius:
-                                    BorderRadius.circular(12), // <-- Radius
+                                BorderRadius.circular(12), // <-- Radius
                               ),
                             ),
                             child: Text(start_date),
@@ -571,7 +512,7 @@ class _AddeventsWidgetState extends State<AddeventsWidget> {
                       ),
                       Padding(
                         padding:
-                            const EdgeInsetsDirectional.fromSTEB(15, 0, 0, 0),
+                        const EdgeInsetsDirectional.fromSTEB(15, 0, 0, 0),
                         child: SizedBox(
                           height: 50,
                           width: 160,
@@ -590,7 +531,7 @@ class _AddeventsWidgetState extends State<AddeventsWidget> {
                               ),
                               shape: RoundedRectangleBorder(
                                 borderRadius:
-                                    BorderRadius.circular(12), // <-- Radius
+                                BorderRadius.circular(12), // <-- Radius
                               ),
                             ),
                             child: Text(start_time),
@@ -607,7 +548,7 @@ class _AddeventsWidgetState extends State<AddeventsWidget> {
                     children: [
                       Padding(
                         padding:
-                            const EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
+                        const EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
                         child: SizedBox(
                           height: 50,
                           width: 160,
@@ -625,7 +566,7 @@ class _AddeventsWidgetState extends State<AddeventsWidget> {
                                   print(pickedDate);
                                 } //pickedDate output format => 2021-03-10 00:00:00.000
                                 String formattedDate =
-                                    DateFormat('yyyy-MM-dd').format(pickedDate);
+                                DateFormat('yyyy-MM-dd').format(pickedDate);
                                 if (kDebugMode) {
                                   print(formattedDate);
                                 } //formatted date output using intl package =>  2021-03-16
@@ -645,7 +586,7 @@ class _AddeventsWidgetState extends State<AddeventsWidget> {
                               ),
                               shape: RoundedRectangleBorder(
                                 borderRadius:
-                                    BorderRadius.circular(12), // <-- Radius
+                                BorderRadius.circular(12), // <-- Radius
                               ),
                             ),
                             child: Text(end_date),
@@ -654,7 +595,7 @@ class _AddeventsWidgetState extends State<AddeventsWidget> {
                       ),
                       Padding(
                         padding:
-                            const EdgeInsetsDirectional.fromSTEB(15, 0, 0, 0),
+                        const EdgeInsetsDirectional.fromSTEB(15, 0, 0, 0),
                         child: SizedBox(
                           height: 50,
                           width: 160,
@@ -673,7 +614,7 @@ class _AddeventsWidgetState extends State<AddeventsWidget> {
                               ),
                               shape: RoundedRectangleBorder(
                                 borderRadius:
-                                    BorderRadius.circular(12), // <-- Radius
+                                BorderRadius.circular(12), // <-- Radius
                               ),
                             ),
                             child: Text(end_time),
@@ -698,14 +639,12 @@ class _AddeventsWidgetState extends State<AddeventsWidget> {
                             });
                         final User user = _auth.currentUser;
                         final uid = user.uid;
-                        String id =
-                            DateTime.now().millisecondsSinceEpoch.toString();
                         String pathToReference = "events/$uid/$id";
                         Geofire.initialize(pathToReference);
-                        bool response = await Geofire.setLocation(
+                          bool response = await Geofire.setLocation(
                             "position ", newlatlang.latitude, newlatlang.longitude);
                         DatabaseReference ref2 =
-                            FirebaseDatabase.instance.ref(pathToReference);
+                        FirebaseDatabase.instance.ref(pathToReference);
                         ref2.update({
                           "meet_type": newValue,
                           "event_type": value2,
@@ -720,7 +659,7 @@ class _AddeventsWidgetState extends State<AddeventsWidget> {
                           "end_date": end_date,
                           "end_time": end_time,
                           "imran_url":
-                              "https://firebasestorage.googleapis.com/v0/b/truckmeets-ad92b.appspot.com/o/images%2FScreenshot%202022-09-30%20093447.png?alt=media&token=6609dffc-8e0e-4f01-9ca1-2fe5ec6c188c",
+                          "https://firebasestorage.googleapis.com/v0/b/truckmeets-ad92b.appspot.com/o/images%2FScreenshot%202022-09-30%20093447.png?alt=media&token=6609dffc-8e0e-4f01-9ca1-2fe5ec6c188c",
                         });
                         Navigator.of(context).pop();
                         ScaffoldMessenger.of(context)
@@ -732,7 +671,7 @@ class _AddeventsWidgetState extends State<AddeventsWidget> {
                           context,
                           MaterialPageRoute(
 
-                            builder: (context) => MyNavigationBar(),
+                            builder: (context) => EmployeeListView(),
                           ),
                         );
                       } catch (error) {
@@ -754,7 +693,7 @@ class _AddeventsWidgetState extends State<AddeventsWidget> {
                         borderRadius: BorderRadius.circular(12), // <-- Radius
                       ),
                     ),
-                    child: const Text('CREATE'),
+                    child: const Text('UPDATE'),
                   ),
                 ),
               ],
@@ -850,7 +789,7 @@ class _AddeventsWidgetState extends State<AddeventsWidget> {
         "path": file.fullPath,
         "uploaded_by": fileMeta.customMetadata['uploaded_by'] ?? 'Nobody',
         "description":
-            fileMeta.customMetadata['description'] ?? 'No description'
+        fileMeta.customMetadata['description'] ?? 'No description'
       });
     });
     return files;

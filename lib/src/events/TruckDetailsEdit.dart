@@ -3,23 +3,26 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:truckmeet/src/screens/MyNavigationBar.dart';
-import 'package:truckmeet/src/screens/Setting.dart';
+import 'package:truckmeet/src/events/TruckData.dart';
+import 'package:truckmeet/src/events/TruckList.dart';
 
-class AddTruckDetailsWidget extends StatefulWidget {
-  const AddTruckDetailsWidget({Key key}) : super(key: key);
+class TruckDetailsEdit extends StatefulWidget {
+
+  TruckData model;
+  String e_key;
+  TruckDetailsEdit(this.model,this.e_key, {Key key}) : super(key: key);
 
   @override
-  _AddTruckDetailsWidgetState createState() => _AddTruckDetailsWidgetState();
+  _TruckDetailsEditState createState() => _TruckDetailsEditState();
 }
 
-class _AddTruckDetailsWidgetState extends State<AddTruckDetailsWidget> {
+class _TruckDetailsEditState extends State<TruckDetailsEdit> {
   TextEditingController textController1;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final reference = FirebaseDatabase.instance;
   String dropDownValue1;
   String dropDownValue2;
-
+  String id = "";
   TextEditingController textController2;
   TextEditingController textController3;
   TextEditingController textController4;
@@ -37,6 +40,14 @@ class _AddTruckDetailsWidgetState extends State<AddTruckDetailsWidget> {
     textController2 = TextEditingController();
     textController3 = TextEditingController();
     textController4 = TextEditingController();
+
+    newValue= widget.model.ownership_status.toString();
+    newValue1= widget.model.truck_transmission.toString();
+    textController1.text=widget.model.model.toString();
+    textController2.text=widget.model.hq.toString();
+    textController3.text=widget.model.tq.toString();
+    textController4.text=widget.model.description.toString();
+    id=widget.e_key;
   }
 
   @override
@@ -66,7 +77,7 @@ class _AddTruckDetailsWidgetState extends State<AddTruckDetailsWidget> {
                   child: Padding(
                     padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 30),
                     child: Text(
-                      'Truck Details',
+                      'Edit Truck',
                       style: TextStyle(
                         fontFamily: 'Poppins',
                         color: Colors.white,
@@ -118,7 +129,7 @@ class _AddTruckDetailsWidgetState extends State<AddTruckDetailsWidget> {
                                 });
                               },
                               icon: Padding(
-                                  //Icon at tail, arrow bottom is default icon
+                                //Icon at tail, arrow bottom is default icon
                                   padding: EdgeInsets.only(left: 20),
                                   child: Icon(Icons.arrow_drop_down)),
                               iconEnabledColor: Colors.black,
@@ -178,7 +189,7 @@ class _AddTruckDetailsWidgetState extends State<AddTruckDetailsWidget> {
                               });
                             },
                             icon: Padding(
-                                //Icon at tail, arrow bottom is default icon
+                              //Icon at tail, arrow bottom is default icon
                                 padding: EdgeInsets.only(left: 20),
                                 child: Icon(Icons.arrow_drop_down)),
                             iconEnabledColor: Colors.black,
@@ -433,21 +444,31 @@ class _AddTruckDetailsWidgetState extends State<AddTruckDetailsWidget> {
                         try {
                           final User user = _auth.currentUser;
                           final uid = user.uid;
-                          ref.child("truck").child(uid).push().set({
+                          String pathToReference = "truck/$uid/$id";
+                          DatabaseReference ref2 =
+                          FirebaseDatabase.instance.ref(pathToReference);
+                          ref2.update({
                             "ownership_status": newValue,
                             "truck_transmission": newValue1,
                             "model": textController1.value.text,
                             "hq": textController2.value.text,
                             "tq": textController3.value.text,
                             "description": textController4.value.text
-                          }).asStream();
+                          });
 
-                          Navigator.pop(context);
+
                           ScaffoldMessenger.of(context)
                               .showSnackBar(const SnackBar(
                             content:
-                                Text("Truck Details submitted successfully"),
+                            Text("Truck details updated successfully"),
                           ));
+                          await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+
+                              builder: (context) => TruckList(),
+                            ),
+                          );
                         } catch (error) {
                           if (kDebugMode) {
                             print('never reached');
@@ -479,7 +500,7 @@ class _AddTruckDetailsWidgetState extends State<AddTruckDetailsWidget> {
                         borderRadius: BorderRadius.circular(12), // <-- Radius
                       ),
                     ),
-                    child: const Text('SEND'),
+                    child: const Text('UPDATE'),
                   ),
                 ),
               ],

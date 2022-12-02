@@ -6,6 +6,7 @@ class Assets {
   static const String imagesEvent = 'images/event.jpg';
   static const String imagesFacebook = 'images/facebook.png';
   static const String imagesGoogle = 'images/google.png';
+  static const String imagesLoc = 'images/loc.jpeg';
   static const String imagesLogo = 'images/logo.jpeg';
   static const String imagesLogout = 'images/logout.png';
   static const String truckmeetImagesBack = 'images/back.png';

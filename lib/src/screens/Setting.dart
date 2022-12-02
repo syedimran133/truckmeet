@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:truckmeet/src/events/TruckList.dart';
 import 'package:truckmeet/src/screens/AddTruckDetails.dart';
 import 'package:truckmeet/src/screens/EditProfile.dart';
 import 'package:truckmeet/src/screens/Login.dart';
 import 'package:truckmeet/src/screens/WebViewContainer.dart';
+
+import '../events/EmployeeListView.dart';
 
 class SettingWidget extends StatefulWidget {
   const SettingWidget({Key? key}) : super(key: key);
@@ -50,6 +53,33 @@ class _SettingWidgetState extends State<SettingWidget> {
                         await Navigator.push(
                           context,
                           MaterialPageRoute(
+                            builder: (context) => EmployeeListView(),
+                          ),
+                        );
+                      },
+                      child: const Text(
+                        'Events',
+                        style: TextStyle(
+                            fontFamily: 'Poppins',
+                            color: Colors.white,
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
+                ),
+                const Divider(
+                  color: Colors.grey,
+                ),
+                Align(
+                  alignment: AlignmentDirectional(-1, 0),
+                  child: Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 10),
+                    child: InkWell(
+                      onTap: () async {
+                        await Navigator.push(
+                          context,
+                          MaterialPageRoute(
                             builder: (context) => EditProfileWidget(),
                           ),
                         );
@@ -77,12 +107,39 @@ class _SettingWidgetState extends State<SettingWidget> {
                         await Navigator.push(
                           context,
                           MaterialPageRoute(
+                            builder: (context) => TruckList(),
+                          ),
+                        );
+                      },
+                      child: const Text(
+                        'Trucks',
+                        style: TextStyle(
+                            fontFamily: 'Poppins',
+                            color: Colors.white,
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
+                ),
+                const Divider(
+                  color: Colors.grey,
+                ),
+                Align(
+                  alignment: AlignmentDirectional(-1, 0),
+                  child: Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 10),
+                    child: InkWell(
+                      onTap: () async {
+                        await Navigator.push(
+                          context,
+                          MaterialPageRoute(
                             builder: (context) => AddTruckDetailsWidget(),
                           ),
                         );
                       },
                       child: const Text(
-                        'Add Trucek Details',
+                        'Add Truck Details',
                         style: TextStyle(
                             fontFamily: 'Poppins',
                             color: Colors.white,

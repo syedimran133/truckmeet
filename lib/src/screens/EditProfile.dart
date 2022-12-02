@@ -1,4 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:truckmeet/src/events/DatabaseService.dart';
+import 'package:truckmeet/src/events/UserData.dart';
+import 'package:truckmeet/src/screens/Setting.dart';
 
 import 'MyNavigationBar.dart';
 
@@ -10,16 +16,35 @@ class EditProfileWidget extends StatefulWidget {
 }
 
 class _EditProfileWidgetState extends State<EditProfileWidget> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   TextEditingController? textController1;
   TextEditingController? textController2;
   final formKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  List<UserData> _user = [];
+  List<String> _keys = [];
+  String _key = "";
 
   @override
   void initState() {
     super.initState();
     textController1 = TextEditingController();
     textController2 = TextEditingController();
+    _setupNeeds();
+    // textController1?.text=_user[0].name;
+    //textController2?.text=_user[0].phone;
+  }
+
+  _setupNeeds() async {
+    List<UserData> empList = await DatabaseService.getUser();
+    List<String> eventKeys = await DatabaseService.getUserKey();
+    setState(() {
+      _user = empList;
+      _keys = eventKeys;
+      _key = _keys[0];
+      textController1?.text = _user[0].name;
+      textController2?.text = _user[0].phone;
+    });
   }
 
   @override
@@ -168,10 +193,45 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                 Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(20, 30, 20, 0),
                   child: ElevatedButton(
-                    onPressed: () {
-                      /*  if (_formkey.currentState.validate()) {
-
-                      }*/
+                    onPressed: () async {
+                      try {
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return const Center(
+                                  child: CircularProgressIndicator());
+                            });
+                        final User? user = _auth.currentUser;
+                        final uid = user?.uid;
+                        String pathToReference = "user/$uid/$_key";
+                        DatabaseReference ref2 =
+                            FirebaseDatabase.instance.ref(pathToReference);
+                        ref2.update({
+                          "name": textController1?.text.toString(),
+                          "email": _user[0].email,
+                          "loginDate": _user[0].loginDate,
+                          "phone": textController2?.text.toString(),
+                          "userType": _user[0].userType,
+                          "uid": uid,
+                          "device": _user[0].device,
+                          "subscribed": _user[0].subscribed,
+                        });
+                        Navigator.of(context).pop();
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(const SnackBar(
+                          content: Text("User update successfully"),
+                        ));
+                        await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SettingWidget(),
+                          ),
+                        );
+                      } catch (error) {
+                        if (kDebugMode) {
+                          print('never reached');
+                        }
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                       primary: Colors.white,

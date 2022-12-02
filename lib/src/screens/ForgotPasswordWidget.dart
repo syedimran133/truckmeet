@@ -111,7 +111,7 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
                         child: Padding(
                           padding: EdgeInsetsDirectional.fromSTEB(0, 5, 0, 0),
                           child: Text(
-                            'Please Enter your email address. you wil\nreceive a link to create a new password\nvia email.',
+                            'Please Enter your email address. you will \n receive a link to create a new password\nvia email.',
                             style: TextStyle(
                               fontFamily: 'Poppins',
                               color: Colors.white,
@@ -123,10 +123,15 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
                       ),
                       Image.asset(
                         'images/logo.jpeg',
-                        height: MediaQuery.of(context).size.height * 0.2,
+                        width: MediaQuery.of(context).size.width * 0.8,
+                        //height: MediaQuery.of(context).size.height * 0.2,
                         fit: BoxFit.fill,
                       ),
-                      TextFormField(
+                 Align(
+                  alignment: AlignmentDirectional(-1, 0),
+                  child: Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(0, 15, 0, 0),
+                    child:TextFormField(
                         controller: textController,
                         autofocus: true,
                         obscureText: false,
@@ -185,9 +190,11 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
                           fontWeight: FontWeight.normal,
                         ),
                       ),
+                  ),
+                ),
                       Padding(
                         padding:
-                            const EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
+                            const EdgeInsetsDirectional.fromSTEB(0, 10, 0, 10),
                         child: ElevatedButton(
                           onPressed: () {
                             if (_formkey.currentState.validate()) {
