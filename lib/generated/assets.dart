@@ -3,12 +3,15 @@ class Assets {
   Assets._();
 
   static const String imagesBack = 'images/back.jpg';
+  static const String imagesDelete = 'images/delete.png';
   static const String imagesEvent = 'images/event.jpg';
   static const String imagesFacebook = 'images/facebook.png';
   static const String imagesGoogle = 'images/google.png';
   static const String imagesLoc = 'images/loc.jpeg';
   static const String imagesLogo = 'images/logo.jpeg';
   static const String imagesLogout = 'images/logout.png';
+  static const String imagesTruck = 'images/truck.png';
+  static const String imagesUpload = 'images/upload.png';
   static const String truckmeetImagesBack = 'images/back.png';
 
 }

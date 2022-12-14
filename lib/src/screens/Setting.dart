@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:truckmeet/src/events/TruckList.dart';
 import 'package:truckmeet/src/screens/AddTruckDetails.dart';
@@ -259,6 +260,7 @@ class _SettingWidgetState extends State<SettingWidget> {
                     padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 10),
                     child: InkWell(
                       onTap: () async {
+                        _signOut();
                         await Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -283,5 +285,8 @@ class _SettingWidgetState extends State<SettingWidget> {
           ),
         ),
     );
+  }
+  Future<void> _signOut() async {
+    await FirebaseAuth.instance.signOut();
   }
 }

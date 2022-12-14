@@ -1,32 +1,33 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:truckmeet/src/events/TruckData.dart';
-import 'package:truckmeet/src/events/TruckDetailsEdit.dart';
-import 'DatabaseService.dart';
+import 'package:truckmeet/src/events/EventDetailPage.dart';
 
-class TruckList extends StatefulWidget {
-  const TruckList({Key? key}) : super(key: key);
+import '../events/DatabaseService.dart';
+import '../events/EventsData.dart';
+
+class EventListAdmin extends StatefulWidget {
+  const EventListAdmin({Key? key}) : super(key: key);
 
   @override
-  State<TruckList> createState() => _TruckListState();
+  State<EventListAdmin> createState() => _EventListAdminState();
 }
 
-class _TruckListState extends State<TruckList> {
-  List<TruckData> _emp = [];
+class _EventListAdminState extends State<EventListAdmin> {
+  List<EventsData> _emp = [];
   List<String> _keys = [];
   String _key = "";
   final databaseReference = FirebaseDatabase.instance.reference();
-  bool _flag = true;
 
   @override
   void initState() {
     super.initState();
+
     _setupNeeds();
   }
 
   _setupNeeds() async {
-    List<TruckData> empList = await DatabaseService.getTrucks();
-    List<String> eventKeys = await DatabaseService.getTrucksKey();
+    List<EventsData> empList = await DatabaseService.getEventListAdmin();
+    List<String> eventKeys = await DatabaseService.getEventKey();
     setState(() {
       _emp = empList;
       _keys = eventKeys;
@@ -35,13 +36,13 @@ class _TruckListState extends State<TruckList> {
   }
 
   _delete(String id) async {
-    await DatabaseService.trucksDelete(id);
-    Navigator.push(
+    await DatabaseService.eventDelete(id);
+/*    Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => TruckList(),
+        builder: (context) => EmployeeListView(),
       ),
-    );
+    );*/
   }
 
   @override
@@ -49,27 +50,26 @@ class _TruckListState extends State<TruckList> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        title: Text('Trucks'),
+        title: Text('Events'),
         backgroundColor: Colors.black,
       ),
       body: ListView.builder(
         itemCount: _emp.length,
         itemBuilder: (context, int index) {
-          final TruckData parents = _emp[index];
-          final String name = parents.model;
-          final String place = parents.hq;
-          final String truck_transmission = parents.truck_transmission;
+          final EventsData parents = _emp[index];
+          final String name = parents.name;
+          final String place = parents.location;
           final String description = parents.description;
-          final String startDate = parents.tq;
+          final String startDate = parents.start_date;
           final String img = parents.imran_url;
           // final String parentUID = parents.uid;
           return GestureDetector(
             onTap: () {
               _key = _keys[index];
-              Navigator.push(
+/*              Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => TruckDetailsEdit(parents, _key)));
+                      builder: (context) => EventsDetailPage(parents, _key)));*/
             },
             child: Card(
               clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -95,75 +95,70 @@ class _TruckListState extends State<TruckList> {
                   ),
                   Expanded(
                     child: Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(15, 15, 0, 10),
+                      padding: EdgeInsetsDirectional.fromSTEB(15, 0, 0, 0),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SelectionArea(
-                              child: Text(
-                            name + "(" + truck_transmission + ")",
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          )),
-                          Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
-                                0, 5, 0, 5),
-                            child: SelectionArea(
-                                child: Text(
-                              description,
-                                  overflow: TextOverflow.fade,
-                                  softWrap: true,
-                              style: TextStyle(
-                                fontFamily: 'Poppins',
-                                color: Colors.white,
-
-                              ),
-                            )),
-                          ),
-                          SelectionArea(
-                              child: Text(
-                            startDate,
-                                overflow: TextOverflow.fade,
-                                softWrap: true,
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                              color: Colors.white,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w300,
-                            ),
-                          )),
-                          SelectionArea(
-                              child: Text(
-                            place,
-                                overflow: TextOverflow.fade,
-                                softWrap: true,
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                              color: Colors.white,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w300,
-                            ),
-                          )),
                           Padding(
                             padding: const EdgeInsetsDirectional.fromSTEB(
                                 0, 10, 0, 0),
-                            child: ElevatedButton(
-                              onPressed: () {
-                                _key = _keys[index];
-                                print("Button pressed ...$_key");
-                                showAlertDialog(context, _key);
-                              },
-                              child: const Text('DELETE'),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor:
-                                    Colors.red, // This is what you need!
+                            child: SelectionArea(
+                                child: Text(
+                              name,
+                              overflow: TextOverflow.fade,
+                              softWrap: true,
+                              style: TextStyle(
+                                fontFamily: 'Poppins',
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
                               ),
-                            ),
+                            )),
                           ),
+                          Padding(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
+                                0, 5, 0, 0),
+                            child: SelectionArea(
+                                child: Text(
+                              description,
+                              overflow: TextOverflow.fade,
+                              softWrap: true,
+                              style: TextStyle(
+                                fontFamily: 'Poppins',
+                                color: Colors.white,
+                                fontWeight: FontWeight.normal,
+                              ),
+                            )),
+                          ),
+                          Padding(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
+                                0, 5, 0, 0),
+                            child: SelectionArea(
+                                child: Text(
+                              startDate,
+                              style: TextStyle(
+                                fontFamily: 'Poppins',
+                                color: Colors.white,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w300,
+                              ),
+                            )),
+                          ),
+                          Padding(
+                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                  0, 5, 0, 10),
+                              child: SelectionArea(
+                                  child: Text(
+                                place,
+                                overflow: TextOverflow.fade,
+                                softWrap: true,
+                                style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  color: Colors.white,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w300,
+                                ),
+                              ))),
                         ],
                       ),
                     ),

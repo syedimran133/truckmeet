@@ -1,7 +1,6 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:truckmeet/src/events/EventDetailPage.dart';
-
 import 'DatabaseService.dart';
 import 'EventsData.dart';
 
@@ -15,12 +14,13 @@ class EmployeeListView extends StatefulWidget {
 class _EmployeeListViewState extends State<EmployeeListView> {
   List<EventsData> _emp = [];
   List<String> _keys = [];
-  String _key="";
+  String _key = "";
   final databaseReference = FirebaseDatabase.instance.reference();
 
   @override
   void initState() {
     super.initState();
+
     _setupNeeds();
   }
 
@@ -29,10 +29,11 @@ class _EmployeeListViewState extends State<EmployeeListView> {
     List<String> eventKeys = await DatabaseService.getEventKey();
     setState(() {
       _emp = empList;
-      _keys=eventKeys;
-      _key=_keys[0];
+      _keys = eventKeys;
+      _key = _keys[0];
     });
   }
+
   _delete(String id) async {
     await DatabaseService.eventDelete(id);
     Navigator.push(
@@ -42,8 +43,14 @@ class _EmployeeListViewState extends State<EmployeeListView> {
       ),
     );
   }
+
   @override
   Widget build(BuildContext context) {
+/*    showDialog(
+        context: context,
+        builder: (context) {
+          return const Center(child: CircularProgressIndicator());
+        });*/
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -52,23 +59,23 @@ class _EmployeeListViewState extends State<EmployeeListView> {
       ),
       body: ListView.builder(
         itemCount: _emp.length,
-
         itemBuilder: (context, int index) {
-
           final EventsData parents = _emp[index];
           final String name = parents.name;
           final String place = parents.location;
           final String description = parents.description;
           final String startDate = parents.start_date;
-
+          final String img = parents.imran_url;
           // final String parentUID = parents.uid;
           return GestureDetector(
             onTap: () {
-              _key=_keys[index];
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => EventsDetailPage(parents,_key)));
+              _key = _keys[index];
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => EventsDetailPage(parents, _key)));
             },
-            child:  Card(
+            child: Card(
               clipBehavior: Clip.antiAliasWithSaveLayer,
               color: Color(0xFF242526),
               elevation: 7,
@@ -87,85 +94,92 @@ class _EmployeeListViewState extends State<EmployeeListView> {
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                       ),
-                      child: Image.asset(
-                        'images/logo.jpeg',
-                      ),
+                      child: Image.network(img, fit: BoxFit.cover),
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(15, 0, 0, 0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SelectionArea(
-                            child: Text(
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(15, 0, 0, 0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
+                                0, 10, 0, 0),
+                            child: SelectionArea(
+                                child: Text(
                               name,
-                              style:TextStyle(
-                                fontFamily: 'Poppins',
-                                color:Colors.white,
-                              ),
-                            )),
-                        SelectionArea(
-                            child: Text(
-                              description,
+                                  overflow: TextOverflow.fade,
+                                  softWrap: true,
                               style: TextStyle(
                                 fontFamily: 'Poppins',
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
                               ),
                             )),
-                        SelectionArea(
-                            child: Text(
-                              startDate,
-                              style: TextStyle(
-                                fontFamily: 'Poppins',
-                                color: Colors.white,
-                                fontSize: 10,
-                                fontWeight: FontWeight.w300,
+                          ),
+                          SelectionArea(
+                              child: Text(
+                            description,
+                            overflow: TextOverflow.fade,
+                            softWrap: true,
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              color: Colors.white,
+                            ),
+                          )),
+                          SelectionArea(
+                              child: Text(
+                            startDate,
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              color: Colors.white,
+                              fontSize: 10,
+                              fontWeight: FontWeight.w300,
+                            ),
+                          )),
+                          SelectionArea(
+                              child: Text(
+                            place,
+                                overflow: TextOverflow.fade,
+                                softWrap: true,
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w300,
+                            ),
+                          )),
+                          Padding(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
+                                0, 10, 0, 0),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                _key = _keys[index];
+                                print("Button pressed ...$_key");
+                                showAlertDialog(context, _key);
+                              },
+                              child: const Text('DELETE'),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor:
+                                    Colors.red, // This is what you need!
                               ),
-                            )),
-                        SelectionArea(
-                            child: Text(
-                              place,
-                              overflow: TextOverflow.fade,
-                              maxLines: 4,
-                              softWrap: true,
-                              style: TextStyle(
-                                fontFamily: 'Poppins',
-                                color: Colors.white,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w300,
-                              ),
-                            )),
-                        Padding(
-                          padding:
-                          const EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
-                          child: ElevatedButton(
-                            onPressed: () {
-                              _key = _keys[index];
-                              print("Button pressed ...$_key");
-                              showAlertDialog(context, _key);
-                            },
-                            child: const Text('DELETE'),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                              Colors.red, // This is what you need!
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ],
               ),
             ),
           );
-
         },
       ),
     );
   }
+
   showAlertDialog(BuildContext context, String key) {
     Widget okButton = TextButton(
       child: const Text("Delete"),

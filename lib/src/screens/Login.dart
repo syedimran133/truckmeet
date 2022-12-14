@@ -57,6 +57,11 @@ class _Login extends State<Login> {
 
   googleLogin() async {
     final ref = reference.reference();
+    showDialog(
+        context: context,
+        builder: (context) {
+          return const Center(child: CircularProgressIndicator());
+        });
     GoogleSignIn _googleSignIn = GoogleSignIn();
     try {
       var reslut = await _googleSignIn.signIn();
@@ -88,6 +93,7 @@ class _Login extends State<Login> {
         "device": "Android",
         "subscribed": "No",
       }).asStream();
+      Navigator.of(context).pop();
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => MyNavigationBar()),

@@ -1,10 +1,13 @@
 // @dart=2.9
 //import 'dart:html';
 import 'dart:async';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_geofire/flutter_geofire.dart';
@@ -18,8 +21,11 @@ import 'package:google_maps_webservice/places.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:path/path.dart' as path;
+import 'package:path/path.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:truckmeet/src/screens/MyNavigationBar.dart';
+
+import '../Utils/ImageUpload.dart';
 
 class AddeventsWidget extends StatefulWidget {
   const AddeventsWidget({Key key}) : super(key: key);
@@ -60,6 +66,10 @@ class _AddeventsWidgetState extends State<AddeventsWidget> {
   CameraPosition cameraPosition;
   LatLng newlatlang = LatLng(27.6602292, 85.308027);
   String location = "Location";
+  File _image = File('images/upload.png'), image;
+  String _uploadedFileURL;
+  bool isLoading = false;
+  bool isUploaded = false;
 
   @override
   void initState() {
@@ -69,6 +79,40 @@ class _AddeventsWidgetState extends State<AddeventsWidget> {
     textController3 = TextEditingController();
     //imagePicker = new ImagePicker();
     checkGps();
+  }
+
+  Future chooseFile() async {
+    image = File(await ImagePicker()
+        .getImage(source: ImageSource.gallery)
+        .then((pickedFile) => pickedFile.path));
+    setState(() {
+      _image = image;
+      uploadFile();
+    });
+  }
+
+  Future uploadFile() async {
+    setState(() {
+      isLoading = true;
+    });
+    final fileName = basename(_image.path);
+    final destination = 'images/$fileName';
+    try {
+      final ref = FirebaseStorage.instance.ref().child(destination);
+      await ref.putFile(_image);
+      String url = await ref.getDownloadURL();
+      setState(() {
+        isLoading = false;
+        _uploadedFileURL = url;
+        print(_uploadedFileURL);
+        isUploaded = true;
+      });
+    } catch (e) {
+      print('error occured');
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
 
   checkGps() async {
@@ -173,22 +217,37 @@ class _AddeventsWidgetState extends State<AddeventsWidget> {
                     ),
                   ),
                 ),
-                Align(
-                  alignment: const AlignmentDirectional(0, 0),
-                  child: Padding(
-                      padding:
-                          const EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
-                      child: InkWell(
-                        onTap: () {
-                          //_handleURLButtonPress(context, ImageSourceType.gallery);
-                        },
-                        child: const Icon(
-                          Icons.camera_alt,
-                          color: Colors.white,
-                          size: 92,
-                        ),
-                      )),
-                ),
+                if (isUploaded)
+                  Align(
+                    alignment: const AlignmentDirectional(0, 0),
+                    child: Padding(
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
+                        child: InkWell(
+                          onTap: chooseFile,
+                          child: Image.file(
+                            _image,
+                            //width: MediaQuery.of(context).size.width * 0.8,
+                            height: MediaQuery.of(context).size.height * 0.15,
+                            fit: BoxFit.fill,
+                          ),
+                        )),
+                  ),
+                if (!isUploaded)
+                  Align(
+                    alignment: const AlignmentDirectional(0, 0),
+                    child: Padding(
+                        padding:
+                        const EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
+                        child: InkWell(
+                          onTap:chooseFile,
+                          child: const Icon(
+                            Icons.camera_alt,
+                            color: Colors.white,
+                            size: 92,
+                          ),
+                        )),
+                  ),
                 Padding(
                   padding: const EdgeInsetsDirectional.fromSTEB(25, 10, 25, 0),
                   child: Padding(
@@ -527,9 +586,6 @@ class _AddeventsWidgetState extends State<AddeventsWidget> {
                           child: ElevatedButton(
                             onPressed: () async {
                               FocusScope.of(context).unfocus();
-                              textController1.clear();
-                              textController2.clear();
-                              textController3.clear();
                               DateTime pickedDate = await showDatePicker(
                                   context: context,
                                   initialDate: DateTime.now(),
@@ -694,7 +750,8 @@ class _AddeventsWidgetState extends State<AddeventsWidget> {
                         showDialog(
                             context: context,
                             builder: (context) {
-                              return const Center(child: CircularProgressIndicator());
+                              return const Center(
+                                  child: CircularProgressIndicator());
                             });
                         final User user = _auth.currentUser;
                         final uid = user.uid;
@@ -702,8 +759,8 @@ class _AddeventsWidgetState extends State<AddeventsWidget> {
                             DateTime.now().millisecondsSinceEpoch.toString();
                         String pathToReference = "events/$uid/$id";
                         Geofire.initialize(pathToReference);
-                        bool response = await Geofire.setLocation(
-                            "position ", newlatlang.latitude, newlatlang.longitude);
+                        bool response = await Geofire.setLocation("position ",
+                            newlatlang.latitude, newlatlang.longitude);
                         DatabaseReference ref2 =
                             FirebaseDatabase.instance.ref(pathToReference);
                         ref2.update({
@@ -719,19 +776,16 @@ class _AddeventsWidgetState extends State<AddeventsWidget> {
                           "start_time": start_time,
                           "end_date": end_date,
                           "end_time": end_time,
-                          "imran_url":
-                              "https://firebasestorage.googleapis.com/v0/b/truckmeets-ad92b.appspot.com/o/images%2FScreenshot%202022-09-30%20093447.png?alt=media&token=6609dffc-8e0e-4f01-9ca1-2fe5ec6c188c",
+                          "imran_url": _uploadedFileURL,
                         });
                         Navigator.of(context).pop();
                         ScaffoldMessenger.of(context)
                             .showSnackBar(const SnackBar(
-                          content: Text(
-                              "User register successfully"),
+                          content: Text("Event added successfully"),
                         ));
                         await Navigator.push(
                           context,
                           MaterialPageRoute(
-
                             builder: (context) => MyNavigationBar(),
                           ),
                         );

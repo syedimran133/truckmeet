@@ -5,7 +5,7 @@ class TruckData {
   final String ownership_status;
   final String tq;
   final String truck_transmission;
-  //final String img_url;
+  final String imran_url;
 
   const TruckData({
     required this.description,
@@ -14,7 +14,7 @@ class TruckData {
     required this.ownership_status,
     required this.tq,
     required this.truck_transmission,
-    //required this.img_url,
+    required this.imran_url,
   });
 
   factory TruckData.fromMap(Map<dynamic, dynamic> map) {
@@ -25,7 +25,7 @@ class TruckData {
       ownership_status: map['ownership_status'] ?? '',
       tq: map['tq'] ?? '',
       truck_transmission: map['truck_transmission'] ?? '',
-      //img_url: map['img_url'] ?? '',
+      imran_url: map['imran_url'] ?? '',
     );
   }
 }

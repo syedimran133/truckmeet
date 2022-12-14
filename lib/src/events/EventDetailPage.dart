@@ -17,9 +17,11 @@ import 'package:google_maps_webservice/directions.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:path/path.dart' as path;
-import 'package:permission_handler/permission_handler.dart';
-import 'package:truckmeet/src/screens/MyNavigationBar.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
+
+import 'package:path/path.dart';
 
 import 'EmployeeListView.dart';
 import 'EventsData.dart';
@@ -70,7 +72,10 @@ class _DetailPageState extends State<EventsDetailPage> {
   CameraPosition cameraPosition;
   LatLng newlatlang = LatLng(27.6602292, 85.308027);
   String location = "Location";
-
+  File _image = File('images/upload.png'), image;
+  String _uploadedFileURL;
+  bool isLoading = false;
+  bool isUploaded = false;
   get e_key => this.e_key;
 
   @override
@@ -92,9 +97,42 @@ class _DetailPageState extends State<EventsDetailPage> {
     textController2.text=decs;
     newlatlang = LatLng(widget.model.Latitude, widget.model.Longitude);
     switchListTileValue=widget.model.allday;
+    _uploadedFileURL = widget.model.imran_url.toString();
     id=widget.e_key;
   }
+  Future chooseFile() async {
+    image = File(await ImagePicker()
+        .getImage(source: ImageSource.gallery)
+        .then((pickedFile) => pickedFile.path));
+    setState(() {
+      _image = image;
+      uploadFile();
+    });
+  }
 
+  Future uploadFile() async {
+    setState(() {
+      isLoading = true;
+    });
+    final fileName = basename(_image.path);
+    final destination = 'images/$fileName';
+    try {
+      final ref = FirebaseStorage.instance.ref().child(destination);
+      await ref.putFile(_image);
+      String url = await ref.getDownloadURL();
+      setState(() {
+        isLoading = false;
+        _uploadedFileURL = url;
+        print(_uploadedFileURL);
+        isUploaded = true;
+      });
+    } catch (e) {
+      print('error occured');
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -113,22 +151,37 @@ class _DetailPageState extends State<EventsDetailPage> {
             child: Column(
               mainAxisSize: MainAxisSize.max,
               children: [
-                Align(
-                  alignment: const AlignmentDirectional(0, 0),
-                  child: Padding(
-                      padding:
-                      const EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
-                      child: InkWell(
-                        onTap: () {
-                          //_handleURLButtonPress(context, ImageSourceType.gallery);
-                        },
-                        child: const Icon(
-                          Icons.camera_alt,
-                          color: Colors.white,
-                          size: 92,
-                        ),
-                      )),
-                ),
+                if (isUploaded)
+                  Align(
+                    alignment: const AlignmentDirectional(0, 0),
+                    child: Padding(
+                        padding:
+                        const EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
+                        child: InkWell(
+                          onTap: chooseFile,
+                          child: Image.file(
+                            _image,
+                            //width: MediaQuery.of(context).size.width * 0.8,
+                            height: MediaQuery.of(context).size.height * 0.15,
+                            fit: BoxFit.fill,
+                          ),
+                        )),
+                  ),
+                if (!isUploaded)
+                  Align(
+                    alignment: const AlignmentDirectional(0, 0),
+                    child: Padding(
+                        padding:
+                        const EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
+                        child: InkWell(
+                          onTap:chooseFile,
+                          child: Image.network(
+                            _uploadedFileURL,
+                            height: MediaQuery.of(context).size.height * 0.15,
+                            fit: BoxFit.fill,
+                          ),
+                        )),
+                  ),
                 Padding(
                   padding: const EdgeInsetsDirectional.fromSTEB(25, 10, 25, 0),
                   child: Padding(
@@ -658,8 +711,7 @@ class _DetailPageState extends State<EventsDetailPage> {
                           "start_time": start_time,
                           "end_date": end_date,
                           "end_time": end_time,
-                          "imran_url":
-                          "https://firebasestorage.googleapis.com/v0/b/truckmeets-ad92b.appspot.com/o/images%2FScreenshot%202022-09-30%20093447.png?alt=media&token=6609dffc-8e0e-4f01-9ca1-2fe5ec6c188c",
+                          "imran_url":_uploadedFileURL,
                         });
                         Navigator.of(context).pop();
                         ScaffoldMessenger.of(context)

@@ -17,7 +17,8 @@ class SignupWidget extends StatefulWidget {
 
 class _SignupWidgetState extends State<SignupWidget> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  get user => _auth.currentUser;
+
+  //get user => _auth.currentUser;
   String _email, _password;
   final reference = FirebaseDatabase.instance;
   TextEditingController tc_name;
@@ -25,6 +26,7 @@ class _SignupWidgetState extends State<SignupWidget> {
   TextEditingController tc_phone;
   TextEditingController tc_password;
   TextEditingController tc_confirm_pass;
+  User userCredential;
 
   //final scaffoldKey = GlobalKey<ScaffoldState>();
   GlobalKey<FormState> _formkey = GlobalKey<FormState>();
@@ -32,24 +34,30 @@ class _SignupWidgetState extends State<SignupWidget> {
   @override
   void initState() {
     super.initState();
+    _signOut();
     tc_name = TextEditingController();
     tc_email = TextEditingController();
     tc_phone = TextEditingController();
     tc_password = TextEditingController();
     tc_confirm_pass = TextEditingController();
   }
-
-  Future signUp({String email,String password}) async {
+  Future<void> _signOut() async {
+    await FirebaseAuth.instance.signOut();
+  }
+  Future signUp({String email, String password}) async {
     try {
       showDialog(
           context: context,
           builder: (context) {
             return const Center(child: CircularProgressIndicator());
           });
-      await _auth.createUserWithEmailAndPassword(
+      UserCredential credential = await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
+      setState(() {
+        userCredential = _auth.currentUser;
+      });
       Navigator.of(context).pop();
       return null;
     } on FirebaseAuthException catch (e) {
@@ -101,7 +109,8 @@ class _SignupWidgetState extends State<SignupWidget> {
                               },
                               child: Image.asset(
                                 'images/back.png',
-                                height: MediaQuery.of(context).size.height * 0.04,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.04,
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -491,8 +500,6 @@ class _SignupWidgetState extends State<SignupWidget> {
                                 var now = new DateTime.now();
                                 var formatter =
                                     new DateFormat('yyyy-MM-dd – kk:mm');
-                                final User user = _auth.currentUser;
-                                final uid = user.uid;
                                 String formattedDate = formatter.format(now);
                                 signUp(
                                         email: _email.trim(),
@@ -500,14 +507,14 @@ class _SignupWidgetState extends State<SignupWidget> {
                                     .then((value) => {
                                           if (value == null)
                                             {
-                                              ref.child("user").child(uid).push().set({
+                                              ref.child("user").child(userCredential.uid).push().set({
                                                 "name": tc_name?.value.text,
                                                 "email": _email,
                                                 "loginDate": formattedDate,
                                                 "phone": tc_phone?.value.text,
                                                 "userType": "user",
                                                 "device": "Android",
-                                                "uid": uid,
+                                                "uid": userCredential.uid,
                                                 "subscribed": "No",
                                               }).asStream(),
                                               ScaffoldMessenger.of(context)

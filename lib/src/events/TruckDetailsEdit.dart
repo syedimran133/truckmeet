@@ -5,6 +5,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:truckmeet/src/events/TruckData.dart';
 import 'package:truckmeet/src/events/TruckList.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
+
+import 'package:path/path.dart';
 
 class TruckDetailsEdit extends StatefulWidget {
 
@@ -29,7 +34,10 @@ class _TruckDetailsEditState extends State<TruckDetailsEdit> {
 
   String newValue = "Currently Owned";
   String newValue1 = "Automatic";
-
+  File _image = File('images/upload.png'), image;
+  String _uploadedFileURL;
+  bool isLoading = false;
+  bool isUploaded = false;
   //final scaffoldKey = GlobalKey<ScaffoldState>();
   GlobalKey<FormState> _formkey = GlobalKey<FormState>();
 
@@ -43,13 +51,46 @@ class _TruckDetailsEditState extends State<TruckDetailsEdit> {
 
     newValue= widget.model.ownership_status.toString();
     newValue1= widget.model.truck_transmission.toString();
+    _uploadedFileURL=widget.model.imran_url.toString();
     textController1.text=widget.model.model.toString();
     textController2.text=widget.model.hq.toString();
     textController3.text=widget.model.tq.toString();
     textController4.text=widget.model.description.toString();
     id=widget.e_key;
   }
+  Future chooseFile() async {
+    image = File(await ImagePicker()
+        .getImage(source: ImageSource.gallery)
+        .then((pickedFile) => pickedFile.path));
+    setState(() {
+      _image = image;
+      uploadFile();
+    });
+  }
 
+  Future uploadFile() async {
+    setState(() {
+      isLoading = true;
+    });
+    final fileName = basename(_image.path);
+    final destination = 'images/$fileName';
+    try {
+      final ref = FirebaseStorage.instance.ref().child(destination);
+      await ref.putFile(_image);
+      String url = await ref.getDownloadURL();
+      setState(() {
+        isLoading = false;
+        _uploadedFileURL = url;
+        print(_uploadedFileURL);
+        isUploaded = true;
+      });
+    } catch (e) {
+      print('error occured');
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
   @override
   Widget build(BuildContext context) {
     final ref = reference.ref();
@@ -61,6 +102,7 @@ class _TruckDetailsEditState extends State<TruckDetailsEdit> {
         actions: [],
         centerTitle: true,
         elevation: 4,
+        title: Text('Edit Truck'),
       ),
       backgroundColor: Colors.black,
       body: Form(
@@ -72,21 +114,37 @@ class _TruckDetailsEditState extends State<TruckDetailsEdit> {
             child: Column(
               mainAxisSize: MainAxisSize.max,
               children: [
-                const Align(
-                  alignment: AlignmentDirectional(0, 0),
-                  child: Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 30),
-                    child: Text(
-                      'Edit Truck',
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        color: Colors.white,
-                        fontSize: 28,
-                        fontWeight: FontWeight.normal,
-                      ),
-                    ),
+                if (isUploaded)
+                  Align(
+                    alignment: const AlignmentDirectional(0, 0),
+                    child: Padding(
+                        padding:
+                        const EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
+                        child: InkWell(
+                          onTap: chooseFile,
+                          child: Image.file(
+                            _image,
+                            //width: MediaQuery.of(context).size.width * 0.8,
+                            height: MediaQuery.of(context).size.height * 0.15,
+                            fit: BoxFit.fill,
+                          ),
+                        )),
                   ),
-                ),
+                if (!isUploaded)
+                  Align(
+                    alignment: const AlignmentDirectional(0, 0),
+                    child: Padding(
+                        padding:
+                        const EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
+                        child: InkWell(
+                          onTap:chooseFile,
+                          child: Image.network(
+                              _uploadedFileURL,
+                            height: MediaQuery.of(context).size.height * 0.15,
+                            fit: BoxFit.fill,
+                          ),
+                        )),
+                  ),
                 Align(
                   alignment: AlignmentDirectional(-1, 0),
                   child: Padding(
@@ -453,7 +511,8 @@ class _TruckDetailsEditState extends State<TruckDetailsEdit> {
                             "model": textController1.value.text,
                             "hq": textController2.value.text,
                             "tq": textController3.value.text,
-                            "description": textController4.value.text
+                            "description": textController4.value.text,
+                            "imran_url": _uploadedFileURL
                           });
 
 
