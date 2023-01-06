@@ -7,16 +7,19 @@ import '../events/DatabaseService.dart';
 import '../events/UserData.dart';
 import 'UserDetails.dart';
 
-class UserList extends StatefulWidget {
-  const UserList({Key? key}) : super(key: key);
+class AttendeeList extends StatefulWidget {
+  String event_uid;
+  String event_id;
+
+   AttendeeList(this.event_uid, this.event_id, {Key? key}) : super(key: key);
 
   @override
-  State<UserList> createState() => _UserListState();
+  State<AttendeeList> createState() => _AttendeeListState();
 }
 
-class _UserListState extends State<UserList> {
+class _AttendeeListState extends State<AttendeeList> {
   List<UserData> _emp = [];
-  List<String> _keys = [];
+  String uid = "", id = "";
   String _key = "";
   final databaseReference = FirebaseDatabase.instance.reference();
   bool _flag = true;
@@ -24,16 +27,15 @@ class _UserListState extends State<UserList> {
   @override
   void initState() {
     super.initState();
+    uid = widget.event_uid;
+    id = widget.event_id;
     _setupNeeds();
   }
 
   _setupNeeds() async {
-    List<UserData> empList = await DatabaseService.getUserList();
-    //List<String> eventKeys = await DatabaseService.getUserListKey();
+    List<UserData> empList = await DatabaseService.getAttendeeList(uid, id);
     setState(() {
       _emp = empList;
-      //_keys = eventKeys;
-      //_key = _keys[0];
     });
   }
 
@@ -52,9 +54,8 @@ class _UserListState extends State<UserList> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        title: Text('Users'),
+        title: Text('Attendee'),
         backgroundColor: Colors.black,
-        automaticallyImplyLeading: false,
       ),
       body: ListView.builder(
         itemCount: _emp.length,
@@ -88,7 +89,7 @@ class _UserListState extends State<UserList> {
                     children: [
                       SelectionArea(
                           child: Text(
-                        "Name : "+name,
+                        "Name : " + name,
                         style: TextStyle(
                           fontFamily: 'Poppins',
                           color: Colors.white,
@@ -100,19 +101,18 @@ class _UserListState extends State<UserList> {
                             const EdgeInsetsDirectional.fromSTEB(0, 5, 0, 5),
                         child: SelectionArea(
                             child: Text(
-                          "Email : "+email,
+                          "Email : " + email,
                           overflow: TextOverflow.fade,
                           softWrap: true,
                           style: TextStyle(
                             fontFamily: 'Poppins',
                             color: Colors.white,
-
                           ),
                         )),
                       ),
                       SelectionArea(
                           child: Text(
-                        "Phone : "+phone,
+                        "Phone : " + phone,
                         overflow: TextOverflow.fade,
                         softWrap: true,
                         style: TextStyle(
@@ -124,7 +124,7 @@ class _UserListState extends State<UserList> {
                       )),
                       SelectionArea(
                           child: Text(
-                        "User Type : "+userType,
+                        "User Type : " + userType,
                         overflow: TextOverflow.fade,
                         softWrap: true,
                         style: TextStyle(

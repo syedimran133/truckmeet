@@ -4,10 +4,11 @@ import 'package:truckmeet/src/events/EventDetailPage.dart';
 
 import '../events/DatabaseService.dart';
 import '../events/EventsData.dart';
+import 'AdminEventsDetails.dart';
 
 class EventListAdmin extends StatefulWidget {
   const EventListAdmin({Key? key}) : super(key: key);
-
+//AdminEventsDetails
   @override
   State<EventListAdmin> createState() => _EventListAdminState();
 }
@@ -27,22 +28,16 @@ class _EventListAdminState extends State<EventListAdmin> {
 
   _setupNeeds() async {
     List<EventsData> empList = await DatabaseService.getEventListAdmin();
-    List<String> eventKeys = await DatabaseService.getEventKey();
+    //List<String> eventKeys = await DatabaseService.getEventKey();
     setState(() {
       _emp = empList;
-      _keys = eventKeys;
-      _key = _keys[0];
+     // _keys = eventKeys;
+     // _key = _keys[0];
     });
   }
 
   _delete(String id) async {
-    await DatabaseService.eventDelete(id);
-/*    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => EmployeeListView(),
-      ),
-    );*/
+
   }
 
   @override
@@ -52,6 +47,7 @@ class _EventListAdminState extends State<EventListAdmin> {
       appBar: AppBar(
         title: Text('Events'),
         backgroundColor: Colors.black,
+        automaticallyImplyLeading: false,
       ),
       body: ListView.builder(
         itemCount: _emp.length,
@@ -65,11 +61,10 @@ class _EventListAdminState extends State<EventListAdmin> {
           // final String parentUID = parents.uid;
           return GestureDetector(
             onTap: () {
-              _key = _keys[index];
-/*              Navigator.push(
+              Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => EventsDetailPage(parents, _key)));*/
+                      builder: (context) => AdminEventsDetails(parents)));
             },
             child: Card(
               clipBehavior: Clip.antiAliasWithSaveLayer,

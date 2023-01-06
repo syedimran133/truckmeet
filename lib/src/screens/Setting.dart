@@ -24,41 +24,46 @@ class _SettingWidgetState extends State<SettingWidget> {
       key: scaffoldKey,
       backgroundColor: Colors.black,
       body: GestureDetector(
-          onTap: () => FocusScope.of(context).unfocus(),
-          child: Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(10, 0, 1, 0),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                const Align(
-                  alignment: AlignmentDirectional(0, 0),
-                  child: Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 60, 0, 30),
-                    child: Text(
-                      'Setting',
-                      style: TextStyle(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Padding(
+          padding: EdgeInsetsDirectional.fromSTEB(10, 0, 1, 0),
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              const Align(
+                alignment: AlignmentDirectional(0, 0),
+                child: Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(0, 60, 0, 30),
+                  child: Text(
+                    'Setting',
+                    style: TextStyle(
                         fontFamily: 'Poppins',
                         color: Colors.white,
                         fontSize: 28,
-                        fontWeight: FontWeight.bold
-                      ),
-                    ),
+                        fontWeight: FontWeight.bold),
                   ),
                 ),
-                Align(
-                  alignment: AlignmentDirectional(-1, 0),
-                  child: Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 10),
-                    child: InkWell(
-                      onTap: () async {
-                        await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => EmployeeListView(),
-                          ),
-                        );
-                      },
-                      child: const Text(
+              ),
+              GestureDetector(
+                onTap: () async {
+                  await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => EmployeeListView(),
+                    ),
+                  );
+                },
+                child: Container(
+                  width: double.infinity,
+                  height: 65,
+                  decoration: const BoxDecoration(
+                    color: Colors.black,
+                  ),
+                  child: const Align(
+                    alignment: AlignmentDirectional(-1, 0),
+                    child: Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 10),
+                      child: Text(
                         'Events',
                         style: TextStyle(
                             fontFamily: 'Poppins',
@@ -69,23 +74,30 @@ class _SettingWidgetState extends State<SettingWidget> {
                     ),
                   ),
                 ),
-                const Divider(
-                  color: Colors.grey,
-                ),
-                Align(
-                  alignment: AlignmentDirectional(-1, 0),
-                  child: Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 10),
-                    child: InkWell(
-                      onTap: () async {
-                        await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => EditProfileWidget(),
-                          ),
-                        );
-                      },
-                      child: const Text(
+              ),
+              const Divider(
+                color: Colors.grey,
+              ),
+              GestureDetector(
+                onTap: () async {
+                  await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => EditProfileWidget(),
+                    ),
+                  );
+                },
+                child: Container(
+                  width: double.infinity,
+                  height: 65,
+                  decoration: const BoxDecoration(
+                    color: Colors.black,
+                  ),
+                  child: const Align(
+                    alignment: AlignmentDirectional(-1, 0),
+                    child: Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 10),
+                      child: Text(
                         'Edit Profile',
                         style: TextStyle(
                             fontFamily: 'Poppins',
@@ -96,23 +108,30 @@ class _SettingWidgetState extends State<SettingWidget> {
                     ),
                   ),
                 ),
-                const Divider(
-                  color: Colors.grey,
-                ),
-                Align(
-                  alignment: AlignmentDirectional(-1, 0),
-                  child: Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 10),
-                    child: InkWell(
-                      onTap: () async {
-                        await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => TruckList(),
-                          ),
-                        );
-                      },
-                      child: const Text(
+              ),
+              const Divider(
+                color: Colors.grey,
+              ),
+              GestureDetector(
+                onTap: () async {
+                  await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => TruckList(),
+                    ),
+                  );
+                },
+                child: Container(
+                  width: double.infinity,
+                  height: 65,
+                  decoration: const BoxDecoration(
+                    color: Colors.black,
+                  ),
+                  child: const Align(
+                    alignment: AlignmentDirectional(-1, 0),
+                    child: Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 10),
+                      child: Text(
                         'Trucks',
                         style: TextStyle(
                             fontFamily: 'Poppins',
@@ -123,23 +142,30 @@ class _SettingWidgetState extends State<SettingWidget> {
                     ),
                   ),
                 ),
-                const Divider(
-                  color: Colors.grey,
-                ),
-                Align(
-                  alignment: AlignmentDirectional(-1, 0),
-                  child: Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 10),
-                    child: InkWell(
-                      onTap: () async {
-                        await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => AddTruckDetailsWidget(),
-                          ),
-                        );
-                      },
-                      child: const Text(
+              ),
+              const Divider(
+                color: Colors.grey,
+              ),
+              GestureDetector(
+                onTap: () async {
+                  await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AddTruckDetailsWidget(),
+                    ),
+                  );
+                },
+                child: Container(
+                  width: double.infinity,
+                  height: 65,
+                  decoration: const BoxDecoration(
+                    color: Colors.black,
+                  ),
+                  child: const Align(
+                    alignment: AlignmentDirectional(-1, 0),
+                    child: Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 10),
+                      child: Text(
                         'Add Truck Details',
                         style: TextStyle(
                             fontFamily: 'Poppins',
@@ -150,10 +176,11 @@ class _SettingWidgetState extends State<SettingWidget> {
                     ),
                   ),
                 ),
-                Divider(
-                  color: Colors.grey,
-                ),
-                const Align(
+              ),
+              const Divider(
+                color: Colors.grey,
+              ),
+              /* const Align(
                   alignment: AlignmentDirectional(-1, 0),
                   child: Padding(
                     padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 10),
@@ -169,22 +196,28 @@ class _SettingWidgetState extends State<SettingWidget> {
                 ),
                 Divider(
                   color: Colors.grey,
-                ),
-                Align(
-                  alignment: AlignmentDirectional(-1, 0),
-                  child: Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 10),
-                    child: InkWell(
-                      onTap: () async {
-                        await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                WebViewContainer("https://fltruckmeet.com/","About Us"),
-                          ),
-                        );
-                      },
-                      child: const Text(
+                ),*/
+              GestureDetector(
+                onTap: () async {
+                  await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => WebViewContainer(
+                          "https://fltruckmeet.com/", "About Us"),
+                    ),
+                  );
+                },
+                child: Container(
+                  width: double.infinity,
+                  height: 65,
+                  decoration: const BoxDecoration(
+                    color: Colors.black,
+                  ),
+                  child: const Align(
+                    alignment: AlignmentDirectional(-1, 0),
+                    child: Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 10),
+                      child: Text(
                         'About Us',
                         style: TextStyle(
                             fontFamily: 'Poppins',
@@ -195,24 +228,32 @@ class _SettingWidgetState extends State<SettingWidget> {
                     ),
                   ),
                 ),
-                const Divider(
-                  color: Colors.grey,
-                ),
-                Align(
-                  alignment: AlignmentDirectional(-1, 0),
-                  child: Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 10),
-                    child: InkWell(
-                      onTap: () async {
-                        await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => WebViewContainer(
-                                "https://policies.google.com/privacy?hl=en-US","Privacy policy"),
-                          ),
-                        );
-                      },
-                      child: const Text(
+              ),
+              const Divider(
+                color: Colors.grey,
+              ),
+              GestureDetector(
+                onTap: () async {
+                  await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => WebViewContainer(
+                          "https://policies.google.com/privacy?hl=en-US",
+                          "Privacy policy"),
+                    ),
+                  );
+                },
+                child: Container(
+                  width: double.infinity,
+                  height: 65,
+                  decoration: const BoxDecoration(
+                    color: Colors.black,
+                  ),
+                  child: const Align(
+                    alignment: AlignmentDirectional(-1, 0),
+                    child: Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 10),
+                      child: Text(
                         'Privacy policy',
                         style: TextStyle(
                             fontFamily: 'Poppins',
@@ -223,23 +264,31 @@ class _SettingWidgetState extends State<SettingWidget> {
                     ),
                   ),
                 ),
-                const Divider(
-                  color: Colors.grey,
-                ),
-                Align(
-                  alignment: AlignmentDirectional(-1, 0),
-                  child: Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 10),
-                    child: InkWell(
-                      onTap: () async {
-                        await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => WebViewContainer(
-                                "https://trucksuvidha.com/TermsAndConditions.aspx","Terms and Conditions"),
-                          ),
-                        );
-                      },
+              ),
+              const Divider(
+                color: Colors.grey,
+              ),
+              GestureDetector(
+                onTap: () async {
+                  await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => WebViewContainer(
+                          "https://trucksuvidha.com/TermsAndConditions.aspx",
+                          "Terms and Conditions"),
+                    ),
+                  );
+                },
+                child: Container(
+                  width: double.infinity,
+                  height: 65,
+                  decoration: const BoxDecoration(
+                    color: Colors.black,
+                  ),
+                  child: const Align(
+                    alignment: AlignmentDirectional(-1, 0),
+                    child: Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 10),
                       child: Text(
                         'Terms and Conditions',
                         style: TextStyle(
@@ -251,41 +300,49 @@ class _SettingWidgetState extends State<SettingWidget> {
                     ),
                   ),
                 ),
-                Divider(
-                  color: Colors.grey,
-                ),
-                Align(
-                  alignment: AlignmentDirectional(-1, 0),
-                  child: Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 10),
-                    child: InkWell(
-                      onTap: () async {
-                        _signOut();
-                        await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Login(),
-                          ),
-                        );
-                      },
+              ),
+              const Divider(
+                color: Colors.grey,
+              ),
+              GestureDetector(
+                onTap: () async {
+                  _signOut();
+                  await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Login(),
+                    ),
+                  );
+                },
+                child: Container(
+                  width: double.infinity,
+                  height: 65,
+                  decoration: const BoxDecoration(
+                    color: Colors.black,
+                  ),
+                  child: const Align(
+                    alignment: AlignmentDirectional(-1, 0),
+                    child: Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 10),
                       child: Text(
                         'Logout',
                         style: TextStyle(
-                          fontFamily: 'Poppins',
-                          color: Colors.white,
+                            fontFamily: 'Poppins',
+                            color: Colors.white,
                             fontSize: 18.0,
-                            fontWeight: FontWeight.bold
-                        ),
+                            fontWeight: FontWeight.bold),
                       ),
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
+      ),
     );
   }
+
   Future<void> _signOut() async {
     await FirebaseAuth.instance.signOut();
   }

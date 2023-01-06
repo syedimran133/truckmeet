@@ -36,12 +36,7 @@ class _EmployeeListViewState extends State<EmployeeListView> {
 
   _delete(String id) async {
     await DatabaseService.eventDelete(id);
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => EmployeeListView(),
-      ),
-    );
+    Navigator.of(context).pop();
   }
 
   @override

@@ -51,6 +51,7 @@ class _TruckListState extends State<TruckList> {
       appBar: AppBar(
         title: Text('Trucks'),
         backgroundColor: Colors.black,
+        automaticallyImplyLeading: false,
       ),
       body: ListView.builder(
         itemCount: _emp.length,

@@ -1,5 +1,6 @@
 
 class EventsData{
+
   final double Latitude;
   final double Longitude;
   final bool allday;
@@ -13,6 +14,9 @@ class EventsData{
   final String name;
   final String start_date;
   final String start_time;
+  final String uid;
+  final String event_id;
+
   const EventsData({
     required this.Latitude,
     required this.Longitude,
@@ -27,6 +31,8 @@ class EventsData{
     required this.name,
     required this.start_date,
     required this.start_time,
+    required this.uid,
+    required this.event_id,
   });
   factory EventsData.fromMap(Map<dynamic, dynamic> map) {
     return EventsData(
@@ -43,6 +49,8 @@ class EventsData{
       name: map['name'] ?? '',
       start_date: map['start_date'] ?? '',
       start_time: map['start_time'] ?? '',
+      uid: map['uid'] ?? '',
+      event_id: map['event_id'] ?? '',
     );
   }
 }

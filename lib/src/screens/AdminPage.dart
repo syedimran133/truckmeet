@@ -3,26 +3,26 @@ import 'dart:core';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:truckmeet/src/screens/Home.dart';
-import 'package:truckmeet/src/screens/streambuilder_test.dart';
-import '../events/Location.dart';
+import 'package:truckmeet/src/screens/SettingAdmin.dart';
 import 'Addevents.dart';
 import 'Dashboard.dart';
+import 'EventListAdmin.dart';
 import 'Setting.dart';
+import 'UserList.dart';
 
-class MyNavigationBar extends StatefulWidget {
-  MyNavigationBar({Key key}) : super(key: key);
-
+class AdminPage extends StatefulWidget {
+  AdminPage({Key key}) : super(key: key);
   @override
-  _MyNavigationBarState createState() => _MyNavigationBarState();
+  _AdminPageState createState() => _AdminPageState();
 }
 
-class _MyNavigationBarState extends State<MyNavigationBar> {
-  int _selectedIndex = 0;
+class _AdminPageState extends State<AdminPage> {
 
+  int _selectedIndex = 0;
   final widgetOptions = [
-    LocationMarkerScreen(),
-    const AddeventsWidget(),
-    const SettingWidget(),
+    UserList(),
+    EventListAdmin(),
+    SettingAdmin(),
   ];
 
   void _onItemTapped(int index) {
@@ -68,9 +68,9 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
           bottomNavigationBar: BottomNavigationBar(
             items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(
-                  icon: Icon(Icons.home, color: Colors.white), label: ''),
+                  icon: Icon(Icons.supervised_user_circle, color: Colors.white), label: ''),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.add_circle, color: Colors.white), label: ''),
+                  icon: Icon(Icons.event, color: Colors.white), label: ''),
               BottomNavigationBarItem(
                   icon: Icon(Icons.settings, color: Colors.white), label: ''),
             ],

@@ -36,12 +36,14 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
   }
 
   _setupNeeds() async {
-    List<UserData> empList = await DatabaseService.getUser();
+    final User? user = FirebaseAuth.instance.currentUser;
+    final uid = user?.uid;
+    List<UserData> empList = await DatabaseService.getUseruid(uid);
     List<String> eventKeys = await DatabaseService.getUserKey();
     setState(() {
       _user = empList;
       _keys = eventKeys;
-      _key = _keys[0];
+      _key = _user[0].uid;
       textController1?.text = _user[0].name;
       textController2?.text = _user[0].phone;
     });
@@ -203,7 +205,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                             });
                         final User? user = _auth.currentUser;
                         final uid = user?.uid;
-                        String pathToReference = "user/$uid/$_key";
+                        String pathToReference = "user/$uid";
                         DatabaseReference ref2 =
                             FirebaseDatabase.instance.ref(pathToReference);
                         ref2.update({
@@ -214,7 +216,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                           "userType": _user[0].userType,
                           "uid": uid,
                           "device": _user[0].device,
-                          "subscribed": _user[0].subscribed,
+                          "subscribed": "No",
                         });
                         Navigator.of(context).pop();
                         ScaffoldMessenger.of(context)

@@ -1,16 +1,14 @@
-
 import 'dart:async';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_geofire/flutter_geofire.dart';
 import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:google_api_headers/google_api_headers.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
-
 import 'EventDeatilsWidget.dart';
 
 class Home extends StatefulWidget {
@@ -30,38 +28,25 @@ class _HomeState extends State<Home> {
   LatLng endLocation = LatLng(27.6599592, 85.3102498);
   LatLng carLocation = LatLng(27.659470, 85.3077363);
 
-  late List<String> keysRetrieved;
-
-  Future<void> initPlatformState() async {
-    String pathToReference = "events";
-    Geofire.initialize(pathToReference);
-    List<String> response;
-    try {
-      response =
-      (await Geofire.queryAtLocation(28.5729847, 77.32490430000001, 50) as List<String>);
-    } on PlatformException {
-      response = 'Failed to get platform version.' as List<String>;
-    }
-    if (!mounted) return;
-    setState(() {
-      keysRetrieved = response;
-    });
-  }
-
   static final CameraPosition _kGoogle = const CameraPosition(
     target: LatLng(19.0759837, 72.8776559),
     zoom: 15,
   );
 
   Uint8List? marketimages;
-  List<String> images = ['images/truck.png','images/truck.png', 'images/truck.png', 'images/truck.png', 'images/truck.png'];
+  List<String> images = [
+    'images/truck.png',
+    'images/truck.png',
+    'images/truck.png',
+    'images/truck.png',
+    'images/truck.png'
+  ];
 
   // created empty list of markers
   final List<Marker> _markers = <Marker>[];
 
   // created list of coordinates of various locations
   final List<LatLng> _latLen = <LatLng>[
-
     LatLng(19.0759837, 72.8776559),
     LatLng(28.679079, 77.069710),
     LatLng(26.850000, 80.949997),
@@ -69,74 +54,87 @@ class _HomeState extends State<Home> {
     LatLng(16.166700, 74.833298),
     LatLng(12.971599, 77.594563),
   ];
-  Future<Uint8List> getImages(String path, int width) async{
-    ByteData data = await rootBundle.load(path);
-    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(), targetHeight: width);
-    ui.FrameInfo fi = await codec.getNextFrame();
-    return(await fi.image.toByteData(format: ui.ImageByteFormat.png))!.buffer.asUint8List();
+  late Stream<List<DocumentSnapshot>> stream1;
 
+  Future<Uint8List> getImages(String path, int width) async {
+    ByteData data = await rootBundle.load(path);
+    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(),
+        targetHeight: width);
+    ui.FrameInfo fi = await codec.getNextFrame();
+    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!
+        .buffer
+        .asUint8List();
   }
-  loadData() async{
-    for(int i=0 ;i<images.length; i++){
+
+  final geo = Geoflutterfire();
+  final _firestore = FirebaseFirestore.instance;
+
+  _geodata() {
+    GeoFirePoint center =
+        geo.point(latitude: 28.5491731, longitude: 77.2965547);
+    var collectionReference = _firestore.collection('events_locations');
+    double radius = 50;
+    String field = 'position';
+    Stream<List<DocumentSnapshot>> stream = geo
+        .collection(collectionRef: collectionReference)
+        .within(center: center, radius: radius, field: field);
+    stream.listen((List<DocumentSnapshot> documentList) {
+      print(documentList.elementAt(0));
+    });
+  }
+
+  loadData() async {
+    for (int i = 0; i < images.length; i++) {
       final Uint8List markIcons = await getImages(images[i], 100);
       // makers added according to index
-      _markers.add(
-          Marker(
-            // given marker id
-            markerId: MarkerId(i.toString()),
-            // given marker icon
-            icon: BitmapDescriptor.fromBytes(markIcons),
-            // given position
-            position: _latLen[i],
-            infoWindow: InfoWindow(
-              // given title for marker
-              title: 'Location: '+i.toString(),
-              snippet: 'XYZ Truck Meet',
-              onTap: () async {
-                await Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => EventDeatilsWidget(),
-                  ),
-                );
-              },
-            ),
-          )
-      );
-      setState(() {
-      });
+      _markers.add(Marker(
+        // given marker id
+        markerId: MarkerId(i.toString()),
+        // given marker icon
+        icon: BitmapDescriptor.fromBytes(markIcons),
+        // given position
+        position: _latLen[i],
+        infoWindow: InfoWindow(
+          // given title for marker
+          title: 'Location: ' + i.toString(),
+          snippet: 'XYZ Truck Meet',
+          onTap: () async {
+
+          },
+        ),
+      ));
+      setState(() {});
     }
   }
-
 
   @override
   void initState() {
     super.initState();
     loadData();
+    _geodata();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Stack(children: [
-          GoogleMap(
-            // given camera position
-            initialCameraPosition: _kGoogle,
-            // set markers on google map
-            markers: Set<Marker>.of(_markers),
-            // on below line we have given map type
-            mapType: MapType.normal,
-            // on below line we have enabled location
-            myLocationEnabled: true,
-            myLocationButtonEnabled: true,
-            // on below line we have enabled compass
-            compassEnabled: true,
-            // below line displays google map in our app
-            onMapCreated: (GoogleMapController controller){
-              _controller.complete(controller);
-            },
-          ),
-
+      GoogleMap(
+        // given camera position
+        initialCameraPosition: _kGoogle,
+        // set markers on google map
+        markers: Set<Marker>.of(_markers),
+        // on below line we have given map type
+        mapType: MapType.normal,
+        // on below line we have enabled location
+        myLocationEnabled: true,
+        myLocationButtonEnabled: true,
+        // on below line we have enabled compass
+        compassEnabled: true,
+        // below line displays google map in our app
+        onMapCreated: (GoogleMapController controller) {
+          _controller.complete(controller);
+        },
+      ),
       //search autoconplete input
       Positioned(
           //search input bar

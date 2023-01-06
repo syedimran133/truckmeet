@@ -2,12 +2,12 @@
 //import 'dart:html';
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_geofire/flutter_geofire.dart';
 import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:geolocator/geolocator.dart';
@@ -693,11 +693,8 @@ class _DetailPageState extends State<EventsDetailPage> {
                         final User user = _auth.currentUser;
                         final uid = user.uid;
                         String pathToReference = "events/$uid/$id";
-                        Geofire.initialize(pathToReference);
-                          bool response = await Geofire.setLocation(
-                            "position ", newlatlang.latitude, newlatlang.longitude);
-                        DatabaseReference ref2 =
-                        FirebaseDatabase.instance.ref(pathToReference);
+                        GeoFirePoint point = geo.point(latitude: newlatlang.latitude, longitude: newlatlang.longitude);
+                        DatabaseReference ref2 = FirebaseDatabase.instance.ref(pathToReference);
                         ref2.update({
                           "meet_type": newValue,
                           "event_type": value2,
@@ -711,8 +708,29 @@ class _DetailPageState extends State<EventsDetailPage> {
                           "start_time": start_time,
                           "end_date": end_date,
                           "end_time": end_time,
-                          "imran_url":_uploadedFileURL,
+                          "imran_url": _uploadedFileURL,
                         });
+                        FirebaseFirestore ref3 = FirebaseFirestore.instance;
+                        ref3.collection("events_locations").doc(id).update({
+                          "uid":uid,
+                          "event_id":id,
+                          "meet_type": newValue,
+                          "event_type": value2,
+                          "Longitude": newlatlang.longitude,
+                          "Latitude": newlatlang.latitude,
+                          "name": textController1.value.text,
+                          "description": textController2.value.text,
+                          "location": location,
+                          "allday": switchListTileValue,
+                          "start_date": start_date,
+                          "start_time": start_time,
+                          "end_date": end_date,
+                          "end_time": end_time,
+                          "position":point.data,
+                          "imran_url": _uploadedFileURL,
+                        }
+
+                        );
                         Navigator.of(context).pop();
                         ScaffoldMessenger.of(context)
                             .showSnackBar(const SnackBar(

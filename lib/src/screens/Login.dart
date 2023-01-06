@@ -6,11 +6,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:intl/date_symbol_data_custom.dart';
 import 'package:intl/intl.dart';
+import 'package:truckmeet/src/events/DatabaseService.dart';
+import 'package:truckmeet/src/events/UserData.dart';
 import 'package:truckmeet/src/screens/ForgotPasswordWidget.dart';
 import 'package:truckmeet/src/screens/MyNavigationBar.dart';
 import 'package:truckmeet/src/screens/SignupWidget.dart';
 import 'package:flutter_progress_hud/flutter_progress_hud.dart';
+
+import 'AdminPage.dart';
 
 class Login extends StatefulWidget {
   const Login({Key key}) : super(key: key);
@@ -21,6 +26,7 @@ class Login extends StatefulWidget {
 
 class _Login extends State<Login> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+
   get user => _auth.currentUser;
   String _errorMessage = '';
   String _email, _password;
@@ -28,6 +34,7 @@ class _Login extends State<Login> {
   final auth = FirebaseAuth.instance;
   TextEditingController textController1;
   TextEditingController textController2;
+  static List<UserData> data1;
 
   //final scaffoldKey = GlobalKey<ScaffoldState>();
   GlobalKey<FormState> _formkey = GlobalKey<FormState>();
@@ -47,6 +54,11 @@ class _Login extends State<Login> {
             return const Center(child: CircularProgressIndicator());
           });
       await _auth.signInWithEmailAndPassword(email: email, password: password);
+      List<UserData> data2 =
+          await DatabaseService.getUsercount(_auth.currentUser.uid);
+      setState(() {
+        data1 = data2;
+      });
       Navigator.of(context).pop();
       return null;
     } on FirebaseAuthException catch (e) {
@@ -83,7 +95,7 @@ class _Login extends State<Login> {
       String formattedDate = formatter.format(now);
       final User user = _auth.currentUser;
       final uid = user.uid;
-      ref.child("user").child(uid).push().set({
+      ref.child("user").child(uid).set({
         "name": displayname,
         "email": finalResult.user.email,
         "loginDate": formattedDate,
@@ -169,7 +181,8 @@ class _Login extends State<Login> {
                         autofocus: true,
                         keyboardType: TextInputType.emailAddress,
                         validator: (value) {
-                          if (!EmailValidator.validate(value, true) || value.isEmpty) {
+                          if (!EmailValidator.validate(value, true) ||
+                              value.isEmpty) {
                             return 'Email should be valid';
                           }
                           return null;
@@ -182,11 +195,10 @@ class _Login extends State<Login> {
                           ),
                           hintText: 'Email',
                           hintStyle: const TextStyle(
-                            fontFamily: 'Poppins',
-                            color: Colors.black,
-                            fontWeight: FontWeight.normal,
-                              fontSize: 14.0
-                          ),
+                              fontFamily: 'Poppins',
+                              color: Colors.black,
+                              fontWeight: FontWeight.normal,
+                              fontSize: 14.0),
                           enabledBorder: UnderlineInputBorder(
                             borderSide: const BorderSide(
                               color: Colors.white,
@@ -327,10 +339,18 @@ class _Login extends State<Login> {
                           signIn(email: _email, password: _password)
                               .then((result) {
                             if (result == null) {
-                              Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => MyNavigationBar()));
+                              if (data1[0].userType == 'admin') {
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => AdminPage()));
+                              } else {
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            MyNavigationBar()));
+                              }
                             } else {
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(SnackBar(
@@ -338,7 +358,6 @@ class _Login extends State<Login> {
                               ));
                             }
                           });
-
                         }
                       },
                       style: ElevatedButton.styleFrom(
@@ -429,43 +448,45 @@ class _Login extends State<Login> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        InkWell(
-                          onTap: googleLogin,
-                          child: Container(
-                            width: 40,
-                            height: 40,
-                            decoration: const BoxDecoration(
-                              color: Color(0xFFFF0000),
-                              shape: BoxShape.circle,
-                            ),
-                            child: Align(
-                              alignment: AlignmentDirectional(0, 0),
-                              child: Image.asset(
-                                'images/google.png',
-                                width: 28,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Align(
-                          alignment: AlignmentDirectional(-0.05, 0),
+                        // Generated code for this Button Widget...
+                        Expanded(
                           child: Padding(
                             padding:
-                                EdgeInsetsDirectional.fromSTEB(15, 0, 0, 0),
-                            child: Container(
-                              width: 45,
-                              height: 45,
-                              decoration: BoxDecoration(
-                                color: Color(0xFF1A5B9E),
-                                shape: BoxShape.circle,
-                              ),
-                              child: Align(
-                                alignment: AlignmentDirectional(0, 0),
-                                child: Image.asset(
-                                  'images/facebook.png',
-                                  width: 20,
-                                  fit: BoxFit.cover,
+                                EdgeInsetsDirectional.fromSTEB(13, 10, 13, 0),
+                            child: GestureDetector(
+                              onTap: googleLogin,
+                              child: Container(
+                                width: 100,
+                                height: 50,
+                                decoration: BoxDecoration(
+                                  color: Color(0xFFFF0000),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Align(
+                                      alignment: AlignmentDirectional(0, 0),
+                                      child: Image.asset(
+                                        'images/google.png',
+                                        width: 40,
+                                        height: 40,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                    const Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          20, 0, 0, 0),
+                                      child: Text(
+                                        'Google Sign In',
+                                        style: TextStyle(
+                                          fontFamily: 'Poppins',
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),

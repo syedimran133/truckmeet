@@ -507,7 +507,7 @@ class _SignupWidgetState extends State<SignupWidget> {
                                     .then((value) => {
                                           if (value == null)
                                             {
-                                              ref.child("user").child(userCredential.uid).push().set({
+                                              ref.child("user").child(userCredential.uid).set({
                                                 "name": tc_name?.value.text,
                                                 "email": _email,
                                                 "loginDate": formattedDate,
