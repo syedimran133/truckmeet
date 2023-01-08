@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:truckmeet/src/events/TruckList.dart';
 import 'package:truckmeet/src/screens/AddTruckDetails.dart';
@@ -6,6 +7,7 @@ import 'package:truckmeet/src/screens/EditProfile.dart';
 import 'package:truckmeet/src/screens/Login.dart';
 import 'package:truckmeet/src/screens/WebViewContainer.dart';
 
+import '../events/DatabaseService.dart';
 import '../events/EmployeeListView.dart';
 
 class SettingWidget extends StatefulWidget {
@@ -17,7 +19,23 @@ class SettingWidget extends StatefulWidget {
 
 class _SettingWidgetState extends State<SettingWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  String about_us = "";
+  String privacy_policy = "";
+  String tnc = "";
 
+  @override
+  void initState() {
+    super.initState();
+    _setupNeeds();
+  }
+  _setupNeeds() async {
+    final v=await DatabaseService.getUrls();
+    setState(() {
+      about_us = v.about_us;
+      privacy_policy = v.privacy_policy;
+      tnc = v.tnc;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,7 +73,7 @@ class _SettingWidgetState extends State<SettingWidget> {
                 },
                 child: Container(
                   width: double.infinity,
-                  height: 65,
+                  height: 55,
                   decoration: const BoxDecoration(
                     color: Colors.black,
                   ),
@@ -89,7 +107,7 @@ class _SettingWidgetState extends State<SettingWidget> {
                 },
                 child: Container(
                   width: double.infinity,
-                  height: 65,
+                  height: 55,
                   decoration: const BoxDecoration(
                     color: Colors.black,
                   ),
@@ -123,7 +141,7 @@ class _SettingWidgetState extends State<SettingWidget> {
                 },
                 child: Container(
                   width: double.infinity,
-                  height: 65,
+                  height: 55,
                   decoration: const BoxDecoration(
                     color: Colors.black,
                   ),
@@ -157,7 +175,7 @@ class _SettingWidgetState extends State<SettingWidget> {
                 },
                 child: Container(
                   width: double.infinity,
-                  height: 65,
+                  height: 55,
                   decoration: const BoxDecoration(
                     color: Colors.black,
                   ),
@@ -202,14 +220,14 @@ class _SettingWidgetState extends State<SettingWidget> {
                   await Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => WebViewContainer(
-                          "https://fltruckmeet.com/", "About Us"),
+                      builder: (context) =>
+                          WebViewContainer(about_us, "About Us"),
                     ),
                   );
                 },
                 child: Container(
                   width: double.infinity,
-                  height: 65,
+                  height: 55,
                   decoration: const BoxDecoration(
                     color: Colors.black,
                   ),
@@ -237,15 +255,14 @@ class _SettingWidgetState extends State<SettingWidget> {
                   await Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => WebViewContainer(
-                          "https://policies.google.com/privacy?hl=en-US",
-                          "Privacy policy"),
+                      builder: (context) =>
+                          WebViewContainer(privacy_policy, "Privacy policy"),
                     ),
                   );
                 },
                 child: Container(
                   width: double.infinity,
-                  height: 65,
+                  height: 55,
                   decoration: const BoxDecoration(
                     color: Colors.black,
                   ),
@@ -273,15 +290,14 @@ class _SettingWidgetState extends State<SettingWidget> {
                   await Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => WebViewContainer(
-                          "https://trucksuvidha.com/TermsAndConditions.aspx",
-                          "Terms and Conditions"),
+                      builder: (context) =>
+                          WebViewContainer(tnc, "Terms and Conditions"),
                     ),
                   );
                 },
                 child: Container(
                   width: double.infinity,
-                  height: 65,
+                  height: 55,
                   decoration: const BoxDecoration(
                     color: Colors.black,
                   ),
@@ -316,7 +332,7 @@ class _SettingWidgetState extends State<SettingWidget> {
                 },
                 child: Container(
                   width: double.infinity,
-                  height: 65,
+                  height: 55,
                   decoration: const BoxDecoration(
                     color: Colors.black,
                   ),

@@ -136,7 +136,7 @@ class _AdminEventsDetailsState extends State<AdminEventsDetails> {
           child: Container(
             width: double.infinity,
             height: double.infinity,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Colors.black,
             ),
             child: Column(
@@ -158,41 +158,115 @@ class _AdminEventsDetailsState extends State<AdminEventsDetails> {
                     child: Column(
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                        Row(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Align(
-                              alignment: AlignmentDirectional(0, 0),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Title',
-                                    style: TextStyle(
-                                      fontFamily: 'Poppins',
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.normal,
-                                    ),
+                        Container(
+                          width: double.infinity,
+                         
+                          decoration: BoxDecoration(
+                            color: Colors.black,
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              const Expanded(
+                                child: Text(
+                                  'Title',
+                                  style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.normal,
                                   ),
-                                  Text(
-                                    'Meet Type',
-                                    style: TextStyle(
-                                      fontFamily: 'Poppins',
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.normal,
-                                    ),
+                                ),
+                              ),
+                              Expanded(
+                                child: Text(
+                                  name,
+                                  style: const TextStyle(
+                                    fontFamily: 'Poppins',
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.normal,
                                   ),
-                                  Text(
-                                    'Event Type',
-                                    style: TextStyle(
-                                      fontFamily: 'Poppins',
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.normal,
-                                    ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          width: double.infinity,
+                         
+                          decoration: const BoxDecoration(
+                            color: Colors.black,
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              const Expanded(
+                                child: Text(
+                                  'Meet Type',
+                                  style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.normal,
                                   ),
-                                  Text(
+                                ),
+                              ),
+                              Expanded(
+                                child: Text(
+                                  meet_type,
+                                  style: const TextStyle(
+                                    fontFamily: 'Poppins',
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          width: double.infinity,
+                         
+                          decoration: const BoxDecoration(
+                            color: Colors.black,
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children:  [
+                              const Expanded(
+                                child: Text(
+                                  'Event Type',
+                                  style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: Text(
+                                  event_type,
+                                  style: const TextStyle(
+                                    fontFamily: 'Poppins',
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          width: double.infinity,
+                         
+                          decoration: const BoxDecoration(
+                            color: Colors.black,
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Expanded(
+                                child: InkWell(
+                                  onTap: () async {},
+                                  child: const Text(
                                     'Description',
                                     style: TextStyle(
                                       fontFamily: 'Poppins',
@@ -200,7 +274,34 @@ class _AdminEventsDetailsState extends State<AdminEventsDetails> {
                                       fontWeight: FontWeight.normal,
                                     ),
                                   ),
-                                  Text(
+                                ),
+                              ),
+                              Expanded(
+                                child: Text(
+                                  description,
+                                  style: const TextStyle(
+                                    fontFamily: 'Poppins',
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          width: double.infinity,
+                         
+                          decoration: const BoxDecoration(
+                            color: Colors.black,
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Expanded(
+                                child: InkWell(
+                                  onTap: () async {},
+                                  child: const Text(
                                     'Hosted By',
                                     style: TextStyle(
                                       fontFamily: 'Poppins',
@@ -208,7 +309,34 @@ class _AdminEventsDetailsState extends State<AdminEventsDetails> {
                                       fontWeight: FontWeight.normal,
                                     ),
                                   ),
-                                  Text(
+                                ),
+                              ),
+                              Expanded(
+                                child: Text(
+                                  user_name,
+                                  style: const TextStyle(
+                                    fontFamily: 'Poppins',
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          width: double.infinity,
+                         
+                          decoration: const BoxDecoration(
+                            color: Colors.black,
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Expanded(
+                                child: InkWell(
+                                  onTap: () async {},
+                                  child: const Text(
                                     'Location',
                                     style: TextStyle(
                                       fontFamily: 'Poppins',
@@ -216,103 +344,52 @@ class _AdminEventsDetailsState extends State<AdminEventsDetails> {
                                       fontWeight: FontWeight.normal,
                                     ),
                                   ),
-                                  Text(
-                                    'Date',
-                                    style: TextStyle(
-                                      fontFamily: 'Poppins',
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.normal,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                              child: Padding(
-                                padding:
-                                    EdgeInsetsDirectional.fromSTEB(25, 0, 0, 0),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      name,
-                                      overflow: TextOverflow.fade,
-                                      softWrap: true,
-                                      style: TextStyle(
-                                        fontFamily: 'Poppins',
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                    Text(
-                                      meet_type,
-                                      overflow: TextOverflow.fade,
-                                      softWrap: true,
-                                      style: TextStyle(
-                                        fontFamily: 'Poppins',
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                    Text(
-                                      event_type,
-                                      overflow: TextOverflow.fade,
-                                      softWrap: true,
-                                      style: TextStyle(
-                                        fontFamily: 'Poppins',
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                    Text(
-                                      description,
-                                      overflow: TextOverflow.fade,
-                                      softWrap: true,
-                                      style: TextStyle(
-                                        fontFamily: 'Poppins',
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.normal,
-                                      ),
-                                    ),
-                                    Text(
-                                      user_name,
-                                      overflow: TextOverflow.fade,
-                                      softWrap: true,
-                                      style: TextStyle(
-                                        fontFamily: 'Poppins',
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.normal,
-                                      ),
-                                    ),
-                                    Text(
-                                      location,
-                                      overflow: TextOverflow.fade,
-                                      softWrap: true,
-                                      style: TextStyle(
-                                        fontFamily: 'Poppins',
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.normal,
-                                      ),
-                                    ),
-                                    Text(
-                                      start_date +
-                                          " " +
-                                          end_date +
-                                          "(" +
-                                          start_time +
-                                          " - " +
-                                          end_time,
-                                      overflow: TextOverflow.fade,
-                                      softWrap: true,
-                                      style: TextStyle(
-                                        fontFamily: 'Poppins',
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.normal,
-                                      ),
-                                    ),
-                                  ],
                                 ),
                               ),
-                            ),
-                          ],
+                              Expanded(
+                                child: Text(
+                                  location,
+                                  style: const TextStyle(
+                                    fontFamily: 'Poppins',
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          width: double.infinity,
+                         
+                          decoration: const BoxDecoration(
+                            color: Colors.black,
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              const Expanded(
+                                child: Text(
+                                  'Date',
+                                  style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: Text(
+                                  start_date+" "+end_date+"("+start_time+" - "+end_time+")",
+                                  style: const TextStyle(
+                                    fontFamily: 'Poppins',
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),

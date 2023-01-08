@@ -152,35 +152,56 @@ class _DetailPageState extends State<EventsDetailPage> {
               mainAxisSize: MainAxisSize.max,
               children: [
                 if (isUploaded)
-                  Align(
-                    alignment: const AlignmentDirectional(0, 0),
-                    child: Padding(
-                        padding:
-                        const EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
-                        child: InkWell(
-                          onTap: chooseFile,
-                          child: Image.file(
-                            _image,
-                            //width: MediaQuery.of(context).size.width * 0.8,
-                            height: MediaQuery.of(context).size.height * 0.15,
-                            fit: BoxFit.fill,
-                          ),
-                        )),
+                  Column(
+                    children: <Widget>[
+                      _image != null
+                          ? isLoading
+                          ? CircularProgressIndicator()
+                          : Align(
+                        alignment: const AlignmentDirectional(0, 0),
+                        child: Padding(
+                            padding:
+                            const EdgeInsetsDirectional.fromSTEB(
+                                0, 10, 0, 0),
+                            child: InkWell(
+                              onTap: chooseFile,
+                              child: Image.file(
+                                _image,
+                                //width: MediaQuery.of(context).size.width * 0.8,
+                                height: MediaQuery.of(context)
+                                    .size
+                                    .height *
+                                    0.15,
+                                fit: BoxFit.fill,
+                              ),
+                            )),
+                      )
+                          : Column()
+                    ],
                   ),
                 if (!isUploaded)
-                  Align(
-                    alignment: const AlignmentDirectional(0, 0),
-                    child: Padding(
-                        padding:
-                        const EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
-                        child: InkWell(
-                          onTap:chooseFile,
-                          child: Image.network(
-                            _uploadedFileURL,
-                            height: MediaQuery.of(context).size.height * 0.15,
-                            fit: BoxFit.fill,
-                          ),
-                        )),
+                  Column(
+                    children: <Widget>[
+                      _image != null
+                          ? isLoading
+                          ? CircularProgressIndicator()
+                          : Align(
+                        alignment: const AlignmentDirectional(0, 0),
+                        child: Padding(
+                            padding:
+                            const EdgeInsetsDirectional.fromSTEB(
+                                0, 10, 0, 0),
+                            child: InkWell(
+                              onTap: chooseFile,
+                              child: const Icon(
+                                Icons.camera_alt,
+                                color: Colors.white,
+                                size: 92,
+                              ),
+                            )),
+                      )
+                          : Column()
+                    ],
                   ),
                 Padding(
                   padding: const EdgeInsetsDirectional.fromSTEB(25, 10, 25, 0),
@@ -735,7 +756,7 @@ class _DetailPageState extends State<EventsDetailPage> {
                         ScaffoldMessenger.of(context)
                             .showSnackBar(const SnackBar(
                           content: Text(
-                              "User register successfully"),
+                              "Event updated successfully"),
                         ));
                         await Navigator.push(
                           context,

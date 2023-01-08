@@ -115,35 +115,56 @@ class _TruckDetailsEditState extends State<TruckDetailsEdit> {
               mainAxisSize: MainAxisSize.max,
               children: [
                 if (isUploaded)
-                  Align(
-                    alignment: const AlignmentDirectional(0, 0),
-                    child: Padding(
-                        padding:
-                        const EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
-                        child: InkWell(
-                          onTap: chooseFile,
-                          child: Image.file(
-                            _image,
-                            //width: MediaQuery.of(context).size.width * 0.8,
-                            height: MediaQuery.of(context).size.height * 0.15,
-                            fit: BoxFit.fill,
-                          ),
-                        )),
+                  Column(
+                    children: <Widget>[
+                      _image != null
+                          ? isLoading
+                          ? CircularProgressIndicator()
+                          : Align(
+                        alignment: const AlignmentDirectional(0, 0),
+                        child: Padding(
+                            padding:
+                            const EdgeInsetsDirectional.fromSTEB(
+                                0, 10, 0, 0),
+                            child: InkWell(
+                              onTap: chooseFile,
+                              child: Image.file(
+                                _image,
+                                //width: MediaQuery.of(context).size.width * 0.8,
+                                height: MediaQuery.of(context)
+                                    .size
+                                    .height *
+                                    0.15,
+                                fit: BoxFit.fill,
+                              ),
+                            )),
+                      )
+                          : Column()
+                    ],
                   ),
                 if (!isUploaded)
-                  Align(
-                    alignment: const AlignmentDirectional(0, 0),
-                    child: Padding(
-                        padding:
-                        const EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
-                        child: InkWell(
-                          onTap:chooseFile,
-                          child: Image.network(
-                              _uploadedFileURL,
-                            height: MediaQuery.of(context).size.height * 0.15,
-                            fit: BoxFit.fill,
-                          ),
-                        )),
+                  Column(
+                    children: <Widget>[
+                      _image != null
+                          ? isLoading
+                          ? CircularProgressIndicator()
+                          : Align(
+                        alignment: const AlignmentDirectional(0, 0),
+                        child: Padding(
+                            padding:
+                            const EdgeInsetsDirectional.fromSTEB(
+                                0, 10, 0, 0),
+                            child: InkWell(
+                              onTap: chooseFile,
+                              child: const Icon(
+                                Icons.camera_alt,
+                                color: Colors.white,
+                                size: 92,
+                              ),
+                            )),
+                      )
+                          : Column()
+                    ],
                   ),
                 Align(
                   alignment: AlignmentDirectional(-1, 0),

@@ -6,6 +6,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:truckmeet/src/events/TruckData.dart';
 import 'package:truckmeet/src/events/UserData.dart';
 import 'EventsData.dart';
+import 'UrlData.dart';
 
 class DatabaseService {
   static Future<List<EventsData>> getEmp() async {
@@ -56,6 +57,12 @@ class DatabaseService {
     final user = UserData.fromMap(map);
     list.add(user);
     return list;
+  }
+  static Future<UrlData> getUrls() async {
+    final snapshot = await FirebaseDatabase.instance.ref('url').get();
+    final map = snapshot.value as Map<dynamic, dynamic>;
+    final user = UrlData.fromMap(map);
+    return user;
   }
   static Future<List<UserData>> getHostUid(String uid) async {
     final snapshot = await FirebaseDatabase.instance.ref('user/' + uid).get();

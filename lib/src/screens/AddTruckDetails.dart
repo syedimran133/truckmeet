@@ -35,6 +35,7 @@ class _AddTruckDetailsWidgetState extends State<AddTruckDetailsWidget> {
   String _uploadedFileURL;
   bool isLoading = false;
   bool isUploaded = false;
+
   //final scaffoldKey = GlobalKey<ScaffoldState>();
   GlobalKey<FormState> _formkey = GlobalKey<FormState>();
 
@@ -46,6 +47,7 @@ class _AddTruckDetailsWidgetState extends State<AddTruckDetailsWidget> {
     textController3 = TextEditingController();
     textController4 = TextEditingController();
   }
+
   Future chooseFile() async {
     image = File(await ImagePicker()
         .getImage(source: ImageSource.gallery)
@@ -79,6 +81,7 @@ class _AddTruckDetailsWidgetState extends State<AddTruckDetailsWidget> {
       });
     }
   }
+
   @override
   Widget build(BuildContext context) {
     final ref = reference.ref();
@@ -103,35 +106,56 @@ class _AddTruckDetailsWidgetState extends State<AddTruckDetailsWidget> {
               mainAxisSize: MainAxisSize.max,
               children: [
                 if (isUploaded)
-                  Align(
-                    alignment: const AlignmentDirectional(0, 0),
-                    child: Padding(
-                        padding:
-                        const EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
-                        child: InkWell(
-                          onTap: chooseFile,
-                          child: Image.file(
-                            _image,
-                            //width: MediaQuery.of(context).size.width * 0.8,
-                            height: MediaQuery.of(context).size.height * 0.15,
-                            fit: BoxFit.fill,
-                          ),
-                        )),
+                  Column(
+                    children: <Widget>[
+                      _image != null
+                          ? isLoading
+                              ? CircularProgressIndicator()
+                              : Align(
+                                  alignment: const AlignmentDirectional(0, 0),
+                                  child: Padding(
+                                      padding:
+                                          const EdgeInsetsDirectional.fromSTEB(
+                                              0, 10, 0, 0),
+                                      child: InkWell(
+                                        onTap: chooseFile,
+                                        child: Image.file(
+                                          _image,
+                                          //width: MediaQuery.of(context).size.width * 0.8,
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.15,
+                                          fit: BoxFit.fill,
+                                        ),
+                                      )),
+                                )
+                          : Column()
+                    ],
                   ),
                 if (!isUploaded)
-                  Align(
-                    alignment: const AlignmentDirectional(0, 0),
-                    child: Padding(
-                        padding:
-                        const EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
-                        child: InkWell(
-                          onTap:chooseFile,
-                          child: const Icon(
-                            Icons.camera_alt,
-                            color: Colors.white,
-                            size: 92,
-                          ),
-                        )),
+                  Column(
+                    children: <Widget>[
+                      _image != null
+                          ? isLoading
+                              ? CircularProgressIndicator()
+                              : Align(
+                                  alignment: const AlignmentDirectional(0, 0),
+                                  child: Padding(
+                                      padding:
+                                          const EdgeInsetsDirectional.fromSTEB(
+                                              0, 10, 0, 0),
+                                      child: InkWell(
+                                        onTap: chooseFile,
+                                        child: const Icon(
+                                          Icons.camera_alt,
+                                          color: Colors.white,
+                                          size: 92,
+                                        ),
+                                      )),
+                                )
+                          : Column()
+                    ],
                   ),
                 Align(
                   alignment: AlignmentDirectional(-1, 0),
@@ -487,34 +511,42 @@ class _AddTruckDetailsWidgetState extends State<AddTruckDetailsWidget> {
                   child: ElevatedButton(
                     onPressed: () async {
                       if (_formkey.currentState.validate()) {
-                        try {
-                          final User user = _auth.currentUser;
-                          final uid = user.uid;
-                          ref.child("truck").child(uid).push().set({
-                            "ownership_status": newValue,
-                            "truck_transmission": newValue1,
-                            "model": textController1.value.text,
-                            "hq": textController2.value.text,
-                            "tq": textController3.value.text,
-                            "description": textController4.value.text,
-                            "imran_url": _uploadedFileURL
-                          }).asStream();
+                        if (!_uploadedFileURL.isEmpty) {
+                          try {
+                            final User user = _auth.currentUser;
+                            final uid = user.uid;
+                            ref.child("truck").child(uid).push().set({
+                              "ownership_status": newValue,
+                              "truck_transmission": newValue1,
+                              "model": textController1.value.text,
+                              "hq": textController2.value.text,
+                              "tq": textController3.value.text,
+                              "description": textController4.value.text,
+                              "imran_url": _uploadedFileURL
+                            }).asStream();
 
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => TruckList(),
-                            ),
-                          );
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => TruckList(),
+                              ),
+                            );
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(const SnackBar(
+                              content:
+                                  Text("Truck Details submitted successfully"),
+                            ));
+                          } catch (error) {
+                            if (kDebugMode) {
+                              print('never reached');
+                            }
+                          }
+                        } else {
                           ScaffoldMessenger.of(context)
                               .showSnackBar(const SnackBar(
-                            content:
-                                Text("Truck Details submitted successfully"),
+                            content: Text(
+                                "Please upload the image first before adding an truck."),
                           ));
-                        } catch (error) {
-                          if (kDebugMode) {
-                            print('never reached');
-                          }
                         }
                         /*        final ref = FirebaseDatabase.instance.ref();
                         final snapshot = await ref.child('users').get();

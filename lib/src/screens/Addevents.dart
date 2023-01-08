@@ -22,7 +22,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:path/path.dart' as path;
 import 'package:path/path.dart';
-import 'package:permission_handler/permission_handler.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:truckmeet/src/screens/MyNavigationBar.dart';
 
 import '../Utils/ImageUpload.dart';
@@ -67,7 +67,7 @@ class _AddeventsWidgetState extends State<AddeventsWidget> {
   LatLng newlatlang = LatLng(27.6602292, 85.308027);
   String location = "Location";
   File _image = File('images/upload.png'), image;
-  String _uploadedFileURL;
+  String _uploadedFileURL = "";
   bool isLoading = false;
   bool isUploaded = false;
 
@@ -77,7 +77,6 @@ class _AddeventsWidgetState extends State<AddeventsWidget> {
     textController1 = TextEditingController();
     textController2 = TextEditingController();
     textController3 = TextEditingController();
-    //imagePicker = new ImagePicker();
     checkGps();
   }
 
@@ -198,7 +197,7 @@ class _AddeventsWidgetState extends State<AddeventsWidget> {
       resizeToAvoidBottomInset: false,
       key: scaffoldKey,
       backgroundColor: Colors.black,
-      body: Form(
+      body: SingleChildScrollView(
         key: _formkey,
         child: GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
@@ -207,7 +206,7 @@ class _AddeventsWidgetState extends State<AddeventsWidget> {
               mainAxisSize: MainAxisSize.max,
               children: [
                 const Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0, 40, 0, 0),
+                  padding: EdgeInsetsDirectional.fromSTEB(0, 40, 0, 25),
                   child: Text(
                     'Add Event',
                     style: TextStyle(
@@ -218,38 +217,59 @@ class _AddeventsWidgetState extends State<AddeventsWidget> {
                   ),
                 ),
                 if (isUploaded)
-                  Align(
-                    alignment: const AlignmentDirectional(0, 0),
-                    child: Padding(
-                        padding:
-                            const EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
-                        child: InkWell(
-                          onTap: chooseFile,
-                          child: Image.file(
-                            _image,
-                            //width: MediaQuery.of(context).size.width * 0.8,
-                            height: MediaQuery.of(context).size.height * 0.15,
-                            fit: BoxFit.fill,
-                          ),
-                        )),
+                  Column(
+                    children: <Widget>[
+                      _image != null
+                          ? isLoading
+                              ? CircularProgressIndicator()
+                              : Align(
+                                  alignment: const AlignmentDirectional(0, 0),
+                                  child: Padding(
+                                      padding:
+                                          const EdgeInsetsDirectional.fromSTEB(
+                                              0, 10, 0, 0),
+                                      child: InkWell(
+                                        onTap: chooseFile,
+                                        child: Image.file(
+                                          _image,
+                                          //width: MediaQuery.of(context).size.width * 0.8,
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.15,
+                                          fit: BoxFit.fill,
+                                        ),
+                                      )),
+                                )
+                          : Column()
+                    ],
                   ),
                 if (!isUploaded)
-                  Align(
-                    alignment: const AlignmentDirectional(0, 0),
-                    child: Padding(
-                        padding:
-                        const EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
-                        child: InkWell(
-                          onTap:chooseFile,
-                          child: const Icon(
-                            Icons.camera_alt,
-                            color: Colors.white,
-                            size: 92,
-                          ),
-                        )),
+                  Column(
+                    children: <Widget>[
+                      _image != null
+                          ? isLoading
+                              ? CircularProgressIndicator()
+                              : Align(
+                                  alignment: const AlignmentDirectional(0, 0),
+                                  child: Padding(
+                                      padding:
+                                          const EdgeInsetsDirectional.fromSTEB(
+                                              0, 10, 0, 0),
+                                      child: InkWell(
+                                        onTap: chooseFile,
+                                        child: const Icon(
+                                          Icons.camera_alt,
+                                          color: Colors.white,
+                                          size: 92,
+                                        ),
+                                      )),
+                                )
+                          : Column()
+                    ],
                   ),
                 Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(25, 10, 25, 0),
+                  padding: const EdgeInsetsDirectional.fromSTEB(25, 25, 25, 0),
                   child: Padding(
                     padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
                     child: DecoratedBox(
@@ -625,31 +645,34 @@ class _AddeventsWidgetState extends State<AddeventsWidget> {
                           ),
                         ),
                       ),
-                      Padding(
-                        padding:
-                            const EdgeInsetsDirectional.fromSTEB(15, 0, 0, 0),
-                        child: SizedBox(
-                          height: 50,
-                          width: 160,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              _selectTime(context);
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.white,
-                              foregroundColor: Colors.black,
-                              minimumSize: const Size.fromHeight(50),
-                              textStyle: const TextStyle(
-                                fontFamily: 'Poppins',
-                                color: Colors.black,
-                                fontWeight: FontWeight.normal,
+                      Expanded(
+                        child: Padding(
+                          padding:
+                              const EdgeInsetsDirectional.fromSTEB(15, 0, 0, 0),
+                          child: SizedBox(
+                            height: 50,
+                            width: 160,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                _selectTime(context);
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.white,
+                                foregroundColor: Colors.black,
+                                minimumSize: const Size.fromHeight(50),
+                                textStyle: const TextStyle(
+                                  fontFamily: 'Poppins',
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.circular(12), // <-- Radius
+                                ),
                               ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.circular(12), // <-- Radius
-                              ),
+                              child: Text(start_time,
+                                  overflow: TextOverflow.fade, softWrap: true),
                             ),
-                            child: Text(start_time),
                           ),
                         ),
                       ),
@@ -708,31 +731,34 @@ class _AddeventsWidgetState extends State<AddeventsWidget> {
                           ),
                         ),
                       ),
-                      Padding(
-                        padding:
-                            const EdgeInsetsDirectional.fromSTEB(15, 0, 0, 0),
-                        child: SizedBox(
-                          height: 50,
-                          width: 160,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              _selectTime2(context);
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.white,
-                              foregroundColor: Colors.black,
-                              minimumSize: const Size.fromHeight(50),
-                              textStyle: const TextStyle(
-                                fontFamily: 'Poppins',
-                                color: Colors.black,
-                                fontWeight: FontWeight.normal,
+                      Expanded(
+                        child: Padding(
+                          padding:
+                              const EdgeInsetsDirectional.fromSTEB(15, 0, 0, 0),
+                          child: SizedBox(
+                            height: 50,
+                            width: 160,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                _selectTime2(context);
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.white,
+                                foregroundColor: Colors.black,
+                                minimumSize: const Size.fromHeight(50),
+                                textStyle: const TextStyle(
+                                  fontFamily: 'Poppins',
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.circular(12), // <-- Radius
+                                ),
                               ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.circular(12), // <-- Radius
-                              ),
+                              child: Text(end_time,
+                                  overflow: TextOverflow.fade, softWrap: true),
                             ),
-                            child: Text(end_time),
                           ),
                         ),
                       ),
@@ -740,79 +766,90 @@ class _AddeventsWidgetState extends State<AddeventsWidget> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(25, 30, 25, 0),
+                  padding: const EdgeInsetsDirectional.fromSTEB(25, 30, 25, 20),
                   child: ElevatedButton(
                     onPressed: () async {
                       /*  if (_formkey.currentState.validate()) {
 
                       }*/
-                      try {
-                        showDialog(
-                            context: context,
-                            builder: (context) {
-                              return const Center(
-                                  child: CircularProgressIndicator());
-                            });
-                        final User user = _auth.currentUser;
-                        final uid = user.uid;
-                        String id =
-                            DateTime.now().millisecondsSinceEpoch.toString();
-                        String pathToReference = "events/$uid/$id";
-                        String pathToEventsLocations = "events_locations/$id";
-                       // Geofire.initialize(pathToEventsLocations);
-                        //await Geofire.setLocation("position", newlatlang.latitude, newlatlang.longitude);
-                        GeoFirePoint point = geo.point(latitude: newlatlang.latitude, longitude: newlatlang.longitude);
-                        DatabaseReference ref2 = FirebaseDatabase.instance.ref(pathToReference);
-                        ref2.update({
-                          "meet_type": newValue,
-                          "event_type": value2,
-                          "uid":uid,
-                          "Longitude": newlatlang.longitude,
-                          "Latitude": newlatlang.latitude,
-                          "name": textController1.value.text,
-                          "description": textController2.value.text,
-                          "location": location,
-                          "allday": switchListTileValue,
-                          "start_date": start_date,
-                          "start_time": start_time,
-                          "end_date": end_date,
-                          "end_time": end_time,
-                          "imran_url": _uploadedFileURL,
-                        });
-                        FirebaseFirestore ref3 = FirebaseFirestore.instance;
-                        ref3.collection("events_locations").doc(id).set({
-                          "uid":uid,
-                          "event_id":id,
-                          "meet_type": newValue,
-                          "event_type": value2,
-                          "Longitude": newlatlang.longitude,
-                          "Latitude": newlatlang.latitude,
-                          "name": textController1.value.text,
-                          "description": textController2.value.text,
-                          "location": location,
-                          "allday": switchListTileValue,
-                          "start_date": start_date,
-                          "start_time": start_time,
-                          "end_date": end_date,
-                          "end_time": end_time,
-                          "position":point.data,
-                          "imran_url": _uploadedFileURL,
-                        });
-                        Navigator.of(context).pop();
+                      if (!_uploadedFileURL.isEmpty) {
+                        try {
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return const Center(
+                                    child: CircularProgressIndicator());
+                              });
+                          final User user = _auth.currentUser;
+                          final uid = user.uid;
+                          String id =
+                              DateTime.now().millisecondsSinceEpoch.toString();
+                          String pathToReference = "events/$uid/$id";
+                          String pathToEventsLocations = "events_locations/$id";
+                          // Geofire.initialize(pathToEventsLocations);
+                          //await Geofire.setLocation("position", newlatlang.latitude, newlatlang.longitude);
+                          GeoFirePoint point = geo.point(
+                              latitude: newlatlang.latitude,
+                              longitude: newlatlang.longitude);
+                          DatabaseReference ref2 =
+                              FirebaseDatabase.instance.ref(pathToReference);
+                          ref2.update({
+                            "meet_type": newValue,
+                            "event_type": value2,
+                            "uid": uid,
+                            "Longitude": newlatlang.longitude,
+                            "Latitude": newlatlang.latitude,
+                            "name": textController1.value.text,
+                            "description": textController2.value.text,
+                            "location": location,
+                            "allday": switchListTileValue,
+                            "start_date": start_date,
+                            "start_time": start_time,
+                            "end_date": end_date,
+                            "end_time": end_time,
+                            "imran_url": _uploadedFileURL,
+                          });
+                          FirebaseFirestore ref3 = FirebaseFirestore.instance;
+                          ref3.collection("events_locations").doc(id).set({
+                            "uid": uid,
+                            "event_id": id,
+                            "meet_type": newValue,
+                            "event_type": value2,
+                            "Longitude": newlatlang.longitude,
+                            "Latitude": newlatlang.latitude,
+                            "name": textController1.value.text,
+                            "description": textController2.value.text,
+                            "location": location,
+                            "allday": switchListTileValue,
+                            "start_date": start_date,
+                            "start_time": start_time,
+                            "end_date": end_date,
+                            "end_time": end_time,
+                            "position": point.data,
+                            "imran_url": _uploadedFileURL,
+                          });
+                          Navigator.of(context).pop();
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(const SnackBar(
+                            content: Text("Event added successfully"),
+                          ));
+                          await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => MyNavigationBar(),
+                            ),
+                          );
+                        } catch (error) {
+                          if (kDebugMode) {
+                            print('never reached');
+                          }
+                        }
+                      } else {
                         ScaffoldMessenger.of(context)
                             .showSnackBar(const SnackBar(
-                          content: Text("Event added successfully"),
+                          content: Text(
+                              "Please upload the image first before creating an event."),
                         ));
-                        await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => MyNavigationBar(),
-                          ),
-                        );
-                      } catch (error) {
-                        if (kDebugMode) {
-                          print('never reached');
-                        }
                       }
                     },
                     style: ElevatedButton.styleFrom(

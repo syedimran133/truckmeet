@@ -32,14 +32,14 @@ class _UserDetailsState extends State<UserDetails> {
   @override
   void initState() {
     super.initState();
-    device= widget.model.device.toString();
-    email= widget.model.email.toString();
-    loginDate= widget.model.loginDate.toString();
     name= widget.model.name.toString();
     phone= widget.model.phone.toString();
+    email= widget.model.email.toString();
+    device= widget.model.device.toString();
+    loginDate= widget.model.loginDate.toString();
+    userType= widget.model.userType.toString();
     subscribed= widget.model.subscribed.toString();
     uid= widget.model.uid.toString();
-    userType= widget.model.userType.toString();
   }
 
   @override
@@ -80,94 +80,250 @@ class _UserDetailsState extends State<UserDetails> {
                           //height: MediaQuery.of(context).size.height * 0.2,
                           fit: BoxFit.fill,
                         ),
-                    Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(13, 10, 0, 0),
-                      child: Text(
-                          "Name : "+name,
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            color: Colors.white,
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
+                        Align(
+                          alignment: AlignmentDirectional(-1, 0),
+                          child: Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(30, 20, 0, 0),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Container(
+                                  width: double.infinity,
+
+                                  decoration: BoxDecoration(
+                                    color: Colors.black,
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: [
+                                      const Expanded(
+                                        child: Text(
+                                          'Name',
+                                          style: TextStyle(
+                                            fontFamily: 'Poppins',
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Text(
+                                          name,
+                                          style: const TextStyle(
+                                            fontFamily: 'Poppins',
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  width: double.infinity,
+
+                                  decoration: const BoxDecoration(
+                                    color: Colors.black,
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: [
+                                      const Expanded(
+                                        child: Text(
+                                          'Phone',
+                                          style: TextStyle(
+                                            fontFamily: 'Poppins',
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Text(
+                                          phone,
+                                          style: const TextStyle(
+                                            fontFamily: 'Poppins',
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  width: double.infinity,
+
+                                  decoration: const BoxDecoration(
+                                    color: Colors.black,
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    children:  [
+                                      const Expanded(
+                                        child: Text(
+                                          'Email',
+                                          style: TextStyle(
+                                            fontFamily: 'Poppins',
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Text(
+                                          email,
+                                          style: const TextStyle(
+                                            fontFamily: 'Poppins',
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  width: double.infinity,
+
+                                  decoration: const BoxDecoration(
+                                    color: Colors.black,
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: [
+                                      Expanded(
+                                        child: InkWell(
+                                          onTap: () async {},
+                                          child: const Text(
+                                            'Device',
+                                            style: TextStyle(
+                                              fontFamily: 'Poppins',
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.normal,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Text(
+                                          device,
+                                          style: const TextStyle(
+                                            fontFamily: 'Poppins',
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  width: double.infinity,
+
+                                  decoration: const BoxDecoration(
+                                    color: Colors.black,
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: [
+                                      Expanded(
+                                        child: InkWell(
+                                          onTap: () async {},
+                                          child: const Text(
+                                            'Login Date',
+                                            style: TextStyle(
+                                              fontFamily: 'Poppins',
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.normal,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Text(
+                                          loginDate,
+                                          style: const TextStyle(
+                                            fontFamily: 'Poppins',
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  width: double.infinity,
+
+                                  decoration: const BoxDecoration(
+                                    color: Colors.black,
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: [
+                                      Expanded(
+                                        child: InkWell(
+                                          onTap: () async {},
+                                          child: const Text(
+                                            'User Type',
+                                            style: TextStyle(
+                                              fontFamily: 'Poppins',
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.normal,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Text(
+                                          userType,
+                                          style: const TextStyle(
+                                            fontFamily: 'Poppins',
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  width: double.infinity,
+
+                                  decoration: const BoxDecoration(
+                                    color: Colors.black,
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: [
+                                      const Expanded(
+                                        child: Text(
+                                          'UID',
+                                          style: TextStyle(
+                                            fontFamily: 'Poppins',
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Text(
+                                          uid,
+                                          style: const TextStyle(
+                                            fontFamily: 'Poppins',
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),),
-                    Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(13, 0, 0, 0),
-                      child: Text(
-                          "Phone : "+phone,
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            color: Colors.white,
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),),
-                    Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(13, 0, 0, 0),
-                      child: Text(
-                          "Email : "+email,
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            color: Colors.white,
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),),
-                    Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(13, 0, 0, 0),
-                      child: Text(
-                          "UID : "+uid,
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            color: Colors.white,
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),),
-                    Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(13, 0, 0, 0),
-                      child: Text(
-                          "User Type : "+userType,
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            color: Colors.white,
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),),
-                    Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(13, 0, 0, 0),
-                      child: Text(
-                          "Device : "+device,
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            color: Colors.white,
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),),
-                    Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(13, 0, 0, 0),
-                      child: Text(
-                          "Subscribed : "+subscribed,
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            color: Colors.white,
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),),
-                    Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(13, 0, 0, 0),
-                      child: Text(
-                          "Login Date : "+loginDate,
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            color: Colors.white,
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),),
+                        ),
                       ],
                     ),
                   ),
