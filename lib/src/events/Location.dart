@@ -148,68 +148,84 @@ class _LocationMarkerScreenState extends State<LocationMarkerScreen> {
 
   void _onLocChange(GoogleMapController controller) {
     setState(() {
-      _mapController = controller;
+      try {
+        _mapController = controller;
 //      _showHome();
-      //start listening after map is created
-      stream.listen((List<DocumentSnapshot> documentList) {
-        _updateMarkers(documentList);
-        var gata = documentList.first.data();
-      });
+        //start listening after map is created
+        stream.listen((List<DocumentSnapshot> documentList) {
+          _updateMarkers(documentList);
+          var gata = documentList.first.data();
+        });
+      } catch (e) {
+        print(e);
+      }
     });
   }
 
   void _onMapCreated(GoogleMapController controller) {
     setState(() {
-      _mapController = controller;
+      try {
+        _mapController = controller;
 //      _showHome();
-      //start listening after map is created
-      stream.listen((List<DocumentSnapshot> documentList) {
-        _updateMarkers(documentList);
-      });
+        //start listening after map is created
+        stream.listen((List<DocumentSnapshot> documentList) {
+          _updateMarkers(documentList);
+        });
+      } catch (e) {
+        print(e);
+      }
     });
   }
 
   void _addMarker(double lat, double lng, EventsData data, String e_key) {
-    final id = MarkerId(lat.toString() + lng.toString());
-    final _marker = Marker(
-      markerId: id,
-      position: LatLng(lat, lng),
-      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueViolet),
-      infoWindow: InfoWindow(
-        title: data.name.toUpperCase(),
-        snippet: data.start_date +
-            " " +
-            data.start_time +
-            " - " +
-            data.end_date +
-            " " +
-            data.end_time,
-        onTap: () async {
-          await Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => EventDeatilsWidget(data, e_key),
-            ),
-          );
-        },
-      ),
-    );
-    setState(() {
-      markers[id] = _marker;
-    });
+    try {
+      final id = MarkerId(lat.toString() + lng.toString());
+      final _marker = Marker(
+        markerId: id,
+        position: LatLng(lat, lng),
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueViolet),
+        infoWindow: InfoWindow(
+          title: data.name.toUpperCase(),
+          snippet: data.start_date +
+              " " +
+              data.start_time +
+              " - " +
+              data.end_date +
+              " " +
+              data.end_time,
+          onTap: () async {
+            await Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => EventDeatilsWidget(data, e_key),
+              ),
+            );
+          },
+        ),
+      );
+      setState(() {
+        markers[id] = _marker;
+      });
+    } catch (e) {
+      print(e);
+    }
   }
 
   void _updateMarkers(List<DocumentSnapshot> documentList) {
     List<EventsData> list = [];
-    documentList.forEach((DocumentSnapshot document) {
-      final data = document.data() as Map<String, dynamic>;
-      final GeoPoint point = data['position']['geopoint'];
-      final user = EventsData.fromMap(data);
-      _addMarker(point.latitude, point.longitude, user,
-          data.entries.elementAt(11).value);
-      list.add(user);
-    });
-    print(list);
+    try {
+      documentList.forEach((DocumentSnapshot document) {
+        final data = document.data() as Map<String, dynamic>;
+        final GeoPoint point = data['position']['geopoint'];
+        final user = EventsData.fromMap(data);
+        _addMarker(point.latitude, point.longitude, user,
+            data.entries.elementAt(11).value);
+        list.add(user);
+      });
+      print(list);
+    } catch (e) {
+      print(e);
+    }
   }
 
   double _value = 20.0;
@@ -244,7 +260,6 @@ class _LocationMarkerScreenState extends State<LocationMarkerScreen> {
       });
       _onLocChange(_mapController!);
     } catch (e) {
-      // TODO: handle exception, for example by showing an alert to the user
       print(e);
     }
   }
