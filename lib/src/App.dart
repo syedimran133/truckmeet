@@ -6,6 +6,7 @@ class App extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: "Truck Meets",
       theme: ThemeData(
         accentColor: Colors.black38,
