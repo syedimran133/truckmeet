@@ -98,68 +98,128 @@ class _AddTruckDetailsWidgetState extends State<AddTruckDetailsWidget> {
       backgroundColor: Colors.black,
       body: Form(
         key: _formkey,
-        child: GestureDetector(
-          onTap: () => FocusScope.of(context).unfocus(),
-          child: Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                if (isUploaded)
-                  Column(
-                    children: <Widget>[
-                      _image != null
-                          ? isLoading
-                              ? CircularProgressIndicator()
-                              : Align(
-                                  alignment: const AlignmentDirectional(0, 0),
-                                  child: Padding(
-                                      padding:
-                                          const EdgeInsetsDirectional.fromSTEB(
-                                              0, 10, 0, 0),
-                                      child: InkWell(
-                                        onTap: chooseFile,
-                                        child: Image.file(
-                                          _image,
-                                          //width: MediaQuery.of(context).size.width * 0.8,
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.15,
-                                          fit: BoxFit.fill,
-                                        ),
-                                      )),
-                                )
-                          : Column()
-                    ],
+        child: SingleChildScrollView(
+          child: GestureDetector(
+            onTap: () => FocusScope.of(context).unfocus(),
+            child: Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  if (isUploaded)
+                    Column(
+                      children: <Widget>[
+                        _image != null
+                            ? isLoading
+                                ? CircularProgressIndicator()
+                                : Align(
+                                    alignment: const AlignmentDirectional(0, 0),
+                                    child: Padding(
+                                        padding: const EdgeInsetsDirectional
+                                            .fromSTEB(0, 10, 0, 0),
+                                        child: InkWell(
+                                          onTap: chooseFile,
+                                          child: Image.file(
+                                            _image,
+                                            //width: MediaQuery.of(context).size.width * 0.8,
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.15,
+                                            fit: BoxFit.fill,
+                                          ),
+                                        )),
+                                  )
+                            : Column()
+                      ],
+                    ),
+                  if (!isUploaded)
+                    Column(
+                      children: <Widget>[
+                        _image != null
+                            ? isLoading
+                                ? CircularProgressIndicator()
+                                : Align(
+                                    alignment: const AlignmentDirectional(0, 0),
+                                    child: Padding(
+                                        padding: const EdgeInsetsDirectional
+                                            .fromSTEB(0, 10, 0, 0),
+                                        child: InkWell(
+                                          onTap: chooseFile,
+                                          child: const Icon(
+                                            Icons.camera_alt,
+                                            color: Colors.white,
+                                            size: 92,
+                                          ),
+                                        )),
+                                  )
+                            : Column()
+                      ],
+                    ),
+                  Align(
+                    alignment: AlignmentDirectional(-1, 0),
+                    child: Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(0, 10, 10, 0),
+                      child: DecoratedBox(
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              //background color of dropdown button dropdown button
+                              borderRadius: BorderRadius.circular(8),
+                              //border raiuds of dropdown button
+                              boxShadow: const <BoxShadow>[
+                                //apply shadow on Dropdown button
+                                BoxShadow(
+                                    color: Colors.white, //shadow for button
+                                    blurRadius: 5)
+                                //blur radius of shadow
+                              ]),
+                          child: Padding(
+                              padding: EdgeInsets.only(left: 10, right: 30),
+                              child: DropdownButton(
+                                value: newValue,
+                                items: const [
+                                  //add items in the dropdown
+                                  DropdownMenuItem(
+                                    child: Text("Currently Owned"),
+                                    value: "Currently Owned",
+                                  ),
+                                  DropdownMenuItem(
+                                      child: Text("For Sale"),
+                                      value: "For Sale"),
+                                  DropdownMenuItem(
+                                    child: Text("Previously Owned"),
+                                    value: "Previously Owned",
+                                  )
+                                ],
+                                onChanged: (String changedValue) {
+                                  newValue = changedValue;
+                                  setState(() {
+                                    newValue;
+                                    print(newValue);
+                                  });
+                                },
+                                icon: Padding(
+                                    //Icon at tail, arrow bottom is default icon
+                                    padding: EdgeInsets.only(left: 20),
+                                    child: Icon(Icons.arrow_drop_down)),
+                                iconEnabledColor: Colors.black,
+                                //Icon color
+                                style: TextStyle(
+                                  //te
+                                  fontFamily: 'Poppins',
+                                  color: Colors.black,
+                                  fontSize: 16.0,
+                                ),
+
+                                dropdownColor: Colors.white,
+                                //dropdown background color
+                                underline: Container(),
+                                //remove underline
+                                isExpanded: true, //make true to make width 100%
+                              ))),
+                    ),
                   ),
-                if (!isUploaded)
-                  Column(
-                    children: <Widget>[
-                      _image != null
-                          ? isLoading
-                              ? CircularProgressIndicator()
-                              : Align(
-                                  alignment: const AlignmentDirectional(0, 0),
-                                  child: Padding(
-                                      padding:
-                                          const EdgeInsetsDirectional.fromSTEB(
-                                              0, 10, 0, 0),
-                                      child: InkWell(
-                                        onTap: chooseFile,
-                                        child: const Icon(
-                                          Icons.camera_alt,
-                                          color: Colors.white,
-                                          size: 92,
-                                        ),
-                                      )),
-                                )
-                          : Column()
-                    ],
-                  ),
-                Align(
-                  alignment: AlignmentDirectional(-1, 0),
-                  child: Padding(
+                  Padding(
                     padding: EdgeInsetsDirectional.fromSTEB(0, 10, 10, 0),
                     child: DecoratedBox(
                         decoration: BoxDecoration(
@@ -177,25 +237,26 @@ class _AddTruckDetailsWidgetState extends State<AddTruckDetailsWidget> {
                         child: Padding(
                             padding: EdgeInsets.only(left: 10, right: 30),
                             child: DropdownButton(
-                              value: newValue,
+                              value: newValue1,
                               items: const [
                                 //add items in the dropdown
                                 DropdownMenuItem(
-                                  child: Text("Currently Owned"),
-                                  value: "Currently Owned",
+                                  child: Text("Manual"),
+                                  value: "Manual",
                                 ),
                                 DropdownMenuItem(
-                                    child: Text("For Sale"), value: "For Sale"),
+                                    child: Text("Automatic"),
+                                    value: "Automatic"),
                                 DropdownMenuItem(
-                                  child: Text("Previously Owned"),
-                                  value: "Previously Owned",
+                                  child: Text("Other"),
+                                  value: "Other",
                                 )
                               ],
                               onChanged: (String changedValue) {
-                                newValue = changedValue;
+                                newValue1 = changedValue;
                                 setState(() {
-                                  newValue;
-                                  print(newValue);
+                                  newValue1;
+                                  print(newValue1);
                                 });
                               },
                               icon: Padding(
@@ -218,337 +279,277 @@ class _AddTruckDetailsWidgetState extends State<AddTruckDetailsWidget> {
                               isExpanded: true, //make true to make width 100%
                             ))),
                   ),
-                ),
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0, 10, 10, 0),
-                  child: DecoratedBox(
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          //background color of dropdown button dropdown button
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(0, 10, 10, 0),
+                    child: TextFormField(
+                      controller: textController1,
+                      autofocus: true,
+                      obscureText: false,
+                      validator: (value) {
+                        if (textController1.text.isEmpty) {
+                          return 'Model should be valid';
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                        hintText: 'Model',
+                        hintStyle: TextStyle(
+                          fontFamily: 'Poppins',
+                          color: Colors.black,
+                          fontWeight: FontWeight.normal,
+                        ),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.black,
+                            width: 1,
+                          ),
                           borderRadius: BorderRadius.circular(8),
-                          //border raiuds of dropdown button
-                          boxShadow: const <BoxShadow>[
-                            //apply shadow on Dropdown button
-                            BoxShadow(
-                                color: Colors.white, //shadow for button
-                                blurRadius: 5)
-                            //blur radius of shadow
-                          ]),
-                      child: Padding(
-                          padding: EdgeInsets.only(left: 10, right: 30),
-                          child: DropdownButton(
-                            value: newValue1,
-                            items: const [
-                              //add items in the dropdown
-                              DropdownMenuItem(
-                                child: Text("Manual"),
-                                value: "Manual",
-                              ),
-                              DropdownMenuItem(
-                                  child: Text("Automatic"), value: "Automatic"),
-                              DropdownMenuItem(
-                                child: Text("Other"),
-                                value: "Other",
-                              )
-                            ],
-                            onChanged: (String changedValue) {
-                              newValue1 = changedValue;
-                              setState(() {
-                                newValue1;
-                                print(newValue1);
-                              });
-                            },
-                            icon: Padding(
-                                //Icon at tail, arrow bottom is default icon
-                                padding: EdgeInsets.only(left: 20),
-                                child: Icon(Icons.arrow_drop_down)),
-                            iconEnabledColor: Colors.black,
-                            //Icon color
-                            style: TextStyle(
-                              //te
-                              fontFamily: 'Poppins',
-                              color: Colors.black,
-                              fontSize: 16.0,
-                            ),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.black,
+                            width: 1,
+                          ),
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        errorBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Color(0xFF941414),
+                            width: 1,
+                          ),
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        focusedErrorBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Color(0xFF941414),
+                            width: 1,
+                          ),
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        filled: true,
+                        fillColor: Colors.white,
+                      ),
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        color: Colors.black,
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(0, 10, 10, 0),
+                    child: TextFormField(
+                      controller: textController2,
+                      autofocus: true,
+                      obscureText: false,
+                      validator: (value) {
+                        if (textController2.text.isEmpty) {
+                          return 'HQ should be valid';
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                        hintText: 'HQ',
+                        hintStyle: TextStyle(
+                          fontFamily: 'Poppins',
+                          color: Colors.black,
+                          fontWeight: FontWeight.normal,
+                        ),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.black,
+                            width: 1,
+                          ),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.black,
+                            width: 1,
+                          ),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        errorBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Color(0xFF941414),
+                            width: 1,
+                          ),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        focusedErrorBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Color(0xFF941414),
+                            width: 1,
+                          ),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        filled: true,
+                        fillColor: Colors.white,
+                      ),
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        color: Colors.black,
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(0, 10, 10, 0),
+                    child: TextFormField(
+                      controller: textController3,
+                      autofocus: true,
+                      obscureText: false,
+                      validator: (value) {
+                        if (textController3.text.isEmpty) {
+                          return 'TQ should be valid';
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                        hintText: 'TQ',
+                        hintStyle: TextStyle(
+                          fontFamily: 'Poppins',
+                          color: Colors.black,
+                          fontWeight: FontWeight.normal,
+                        ),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.black,
+                            width: 1,
+                          ),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.black,
+                            width: 1,
+                          ),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        errorBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Color(0xFF941414),
+                            width: 1,
+                          ),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        focusedErrorBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Color(0xFF941414),
+                            width: 1,
+                          ),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        filled: true,
+                        fillColor: Colors.white,
+                      ),
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        color: Colors.black,
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(0, 10, 10, 0),
+                    child: TextFormField(
+                      controller: textController4,
+                      autofocus: true,
+                      obscureText: false,
+                      validator: (value) {
+                        if (textController4.text.isEmpty) {
+                          return 'Description should be valid';
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                        hintText: 'Description',
+                        hintStyle: TextStyle(
+                          fontFamily: 'Poppins',
+                          color: Colors.black,
+                          fontWeight: FontWeight.normal,
+                        ),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.black,
+                            width: 1,
+                          ),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.black,
+                            width: 1,
+                          ),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        errorBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Color(0xFF941414),
+                            width: 1,
+                          ),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        focusedErrorBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Color(0xFF941414),
+                            width: 1,
+                          ),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        filled: true,
+                        fillColor: Colors.white,
+                      ),
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        color: Colors.black,
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(0, 10, 10, 0),
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        if (_formkey.currentState.validate()) {
+                          if (!_uploadedFileURL.isEmpty) {
+                            try {
+                              final User user = _auth.currentUser;
+                              final uid = user.uid;
+                              ref.child("truck").child(uid).push().set({
+                                "ownership_status": newValue,
+                                "truck_transmission": newValue1,
+                                "model": textController1.value.text,
+                                "hq": textController2.value.text,
+                                "tq": textController3.value.text,
+                                "description": textController4.value.text,
+                                "imran_url": _uploadedFileURL
+                              }).asStream();
 
-                            dropdownColor: Colors.white,
-                            //dropdown background color
-                            underline: Container(),
-                            //remove underline
-                            isExpanded: true, //make true to make width 100%
-                          ))),
-                ),
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0, 10, 10, 0),
-                  child: TextFormField(
-                    controller: textController1,
-                    autofocus: true,
-                    obscureText: false,
-                    validator: (value) {
-                      if (textController1.text.isEmpty) {
-                        return 'Model should be valid';
-                      }
-                      return null;
-                    },
-                    decoration: InputDecoration(
-                      hintText: 'Model',
-                      hintStyle: TextStyle(
-                        fontFamily: 'Poppins',
-                        color: Colors.black,
-                        fontWeight: FontWeight.normal,
-                      ),
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.black,
-                          width: 1,
-                        ),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.black,
-                          width: 1,
-                        ),
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                      errorBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Color(0xFF941414),
-                          width: 1,
-                        ),
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                      focusedErrorBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Color(0xFF941414),
-                          width: 1,
-                        ),
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                      filled: true,
-                      fillColor: Colors.white,
-                    ),
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      color: Colors.black,
-                      fontWeight: FontWeight.normal,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0, 10, 10, 0),
-                  child: TextFormField(
-                    controller: textController2,
-                    autofocus: true,
-                    obscureText: false,
-                    validator: (value) {
-                      if (textController2.text.isEmpty) {
-                        return 'HQ should be valid';
-                      }
-                      return null;
-                    },
-                    decoration: InputDecoration(
-                      hintText: 'HQ',
-                      hintStyle: TextStyle(
-                        fontFamily: 'Poppins',
-                        color: Colors.black,
-                        fontWeight: FontWeight.normal,
-                      ),
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.black,
-                          width: 1,
-                        ),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.black,
-                          width: 1,
-                        ),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      errorBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Color(0xFF941414),
-                          width: 1,
-                        ),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      focusedErrorBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Color(0xFF941414),
-                          width: 1,
-                        ),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      filled: true,
-                      fillColor: Colors.white,
-                    ),
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      color: Colors.black,
-                      fontWeight: FontWeight.normal,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0, 10, 10, 0),
-                  child: TextFormField(
-                    controller: textController3,
-                    autofocus: true,
-                    obscureText: false,
-                    validator: (value) {
-                      if (textController3.text.isEmpty) {
-                        return 'TQ should be valid';
-                      }
-                      return null;
-                    },
-                    decoration: InputDecoration(
-                      hintText: 'TQ',
-                      hintStyle: TextStyle(
-                        fontFamily: 'Poppins',
-                        color: Colors.black,
-                        fontWeight: FontWeight.normal,
-                      ),
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.black,
-                          width: 1,
-                        ),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.black,
-                          width: 1,
-                        ),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      errorBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Color(0xFF941414),
-                          width: 1,
-                        ),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      focusedErrorBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Color(0xFF941414),
-                          width: 1,
-                        ),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      filled: true,
-                      fillColor: Colors.white,
-                    ),
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      color: Colors.black,
-                      fontWeight: FontWeight.normal,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0, 10, 10, 0),
-                  child: TextFormField(
-                    controller: textController4,
-                    autofocus: true,
-                    obscureText: false,
-                    validator: (value) {
-                      if (textController4.text.isEmpty) {
-                        return 'Description should be valid';
-                      }
-                      return null;
-                    },
-                    decoration: InputDecoration(
-                      hintText: 'Description',
-                      hintStyle: TextStyle(
-                        fontFamily: 'Poppins',
-                        color: Colors.black,
-                        fontWeight: FontWeight.normal,
-                      ),
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.black,
-                          width: 1,
-                        ),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.black,
-                          width: 1,
-                        ),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      errorBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Color(0xFF941414),
-                          width: 1,
-                        ),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      focusedErrorBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Color(0xFF941414),
-                          width: 1,
-                        ),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      filled: true,
-                      fillColor: Colors.white,
-                    ),
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      color: Colors.black,
-                      fontWeight: FontWeight.normal,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0, 10, 10, 0),
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      if (_formkey.currentState.validate()) {
-                        if (!_uploadedFileURL.isEmpty) {
-                          try {
-                            final User user = _auth.currentUser;
-                            final uid = user.uid;
-                            ref.child("truck").child(uid).push().set({
-                              "ownership_status": newValue,
-                              "truck_transmission": newValue1,
-                              "model": textController1.value.text,
-                              "hq": textController2.value.text,
-                              "tq": textController3.value.text,
-                              "description": textController4.value.text,
-                              "imran_url": _uploadedFileURL
-                            }).asStream();
-
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => TruckList(),
-                              ),
-                            );
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => TruckList(),
+                                ),
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(const SnackBar(
+                                content: Text(
+                                    "Truck Details submitted successfully"),
+                              ));
+                            } catch (error) {
+                              if (kDebugMode) {
+                                print('never reached');
+                              }
+                            }
+                          } else {
                             ScaffoldMessenger.of(context)
                                 .showSnackBar(const SnackBar(
-                              content:
-                                  Text("Truck Details submitted successfully"),
+                              content: Text(
+                                  "Please upload the image first before adding an truck."),
                             ));
-                          } catch (error) {
-                            if (kDebugMode) {
-                              print('never reached');
-                            }
                           }
-                        } else {
-                          ScaffoldMessenger.of(context)
-                              .showSnackBar(const SnackBar(
-                            content: Text(
-                                "Please upload the image first before adding an truck."),
-                          ));
-                        }
-                        /*        final ref = FirebaseDatabase.instance.ref();
+                          /*        final ref = FirebaseDatabase.instance.ref();
                         final snapshot = await ref.child('users').get();
                         if (snapshot.exists) {
                           print(snapshot.value);
@@ -559,25 +560,26 @@ class _AddTruckDetailsWidgetState extends State<AddTruckDetailsWidget> {
                         } else {
                           print('No data available.');
                         }*/
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.white,
-                      onPrimary: Colors.black,
-                      minimumSize: const Size.fromHeight(50),
-                      textStyle: const TextStyle(
-                        fontFamily: 'Poppins',
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.white,
+                        onPrimary: Colors.black,
+                        minimumSize: const Size.fromHeight(50),
+                        textStyle: const TextStyle(
+                          fontFamily: 'Poppins',
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12), // <-- Radius
+                        ),
                       ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12), // <-- Radius
-                      ),
+                      child: const Text('SEND'),
                     ),
-                    child: const Text('SEND'),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

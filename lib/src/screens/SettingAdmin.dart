@@ -46,23 +46,6 @@ class _SettingAdminState extends State<SettingAdmin> {
                   ),
                 ),
 
-                const Align(
-                  alignment: AlignmentDirectional(-1, 0),
-                  child: Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 10),
-                    child: Text(
-                      'Subscription',
-                      style: TextStyle(
-                          fontFamily: 'Poppins',
-                          color: Colors.white,
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ),
-                Divider(
-                  color: Colors.grey,
-                ),
                 Align(
                   alignment: AlignmentDirectional(-1, 0),
                   child: Padding(

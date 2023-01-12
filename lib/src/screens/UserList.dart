@@ -1,7 +1,5 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:truckmeet/src/events/TruckData.dart';
-import 'package:truckmeet/src/events/TruckDetailsEdit.dart';
 
 import '../events/DatabaseService.dart';
 import '../events/UserData.dart';

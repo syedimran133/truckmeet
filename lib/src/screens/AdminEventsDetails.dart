@@ -130,12 +130,12 @@ class _AdminEventsDetailsState extends State<AdminEventsDetails> {
         actions: [],
         elevation: 4,
       ),
-      body: SafeArea(
+      body: SingleChildScrollView(
         child: GestureDetector(
           onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
           child: Container(
             width: double.infinity,
-            height: double.infinity,
+            //height: double.infinity,
             decoration: const BoxDecoration(
               color: Colors.black,
             ),
@@ -146,9 +146,9 @@ class _AdminEventsDetailsState extends State<AdminEventsDetails> {
                   padding: EdgeInsetsDirectional.fromSTEB(0, 13, 0, 13),
                   child: Image.network(
                     imran_url,
-                    width: 100,
-                    height: 100,
-                    fit: BoxFit.cover,
+                    width: MediaQuery.of(context).size.width * 0.8,
+                    height: MediaQuery.of(context).size.height * 0.15,
+                    fit: BoxFit.contain,
                   ),
                 ),
                 Align(
@@ -398,7 +398,7 @@ class _AdminEventsDetailsState extends State<AdminEventsDetails> {
                 Align(
                   alignment: AlignmentDirectional(0, 0),
                   child: Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(10, 20, 10, 0),
+                    padding: EdgeInsetsDirectional.fromSTEB(10, 20, 10, 30),
                     child: Card(
                       elevation: 4,
                       margin: EdgeInsets.symmetric(vertical: 8),
