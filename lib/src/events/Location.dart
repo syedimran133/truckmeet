@@ -16,7 +16,6 @@ import '../screens/EventDeatilsWidget.dart';
 import '../screens/streambuilder_test.dart';
 
 class LocationMarkerScreen extends StatefulWidget {
-
   @override
   _LocationMarkerScreenState createState() => _LocationMarkerScreenState();
 }
@@ -58,91 +57,93 @@ class _LocationMarkerScreenState extends State<LocationMarkerScreen> {
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     return MaterialApp(
+        debugShowCheckedModeBanner: false,
         home: Scaffold(
-      body: Stack(
-        children: [
-          GoogleMap(
-            onMapCreated: _onMapCreated,
-            initialCameraPosition: CameraPosition(
-              target: latlong,
-              zoom: 10.0,
-            ),
-            markers: Set<Marker>.of(markers.values),
-          ),
-          Positioned(
-            //search input bar
-            bottom: 10,
-            child: Slider(
-              min: 1,
-              max: 200,
-              divisions: 4,
-              value: _value,
-              label: _label,
-              activeColor: Colors.blue,
-              inactiveColor: Colors.blue.withOpacity(0.2),
-              onChanged: (double value) => changed(value),
-            ),
-          ),
-          Positioned(
-              //search input bar
-              top: 13,
-              child: InkWell(
-                  onTap: () async {
-                    var place = await PlacesAutocomplete.show(
-                        context: context,
-                        apiKey: googleApikey,
-                        mode: Mode.overlay,
-                        types: [],
-                        strictbounds: false,
-                        //google_map_webservice package
-                        onError: (err) {
-                          print(err);
-                        });
+          body: Stack(
+            children: [
+              GoogleMap(
+                onMapCreated: _onMapCreated,
+                initialCameraPosition: CameraPosition(
+                  target: latlong,
+                  zoom: 10.0,
+                ),
+                markers: Set<Marker>.of(markers.values),
+              ),
+              Positioned(
+                //search input bar
+                bottom: 10,
+                child: Slider(
+                  min: 1,
+                  max: 200,
+                  divisions: 4,
+                  value: _value,
+                  label: _label,
+                  activeColor: Colors.blue,
+                  inactiveColor: Colors.blue.withOpacity(0.2),
+                  onChanged: (double value) => changed(value),
+                ),
+              ),
+              Positioned(
+                  //search input bar
+                  top: 13,
+                  child: InkWell(
+                      onTap: () async {
+                        var place = await PlacesAutocomplete.show(
+                            context: context,
+                            apiKey: googleApikey,
+                            mode: Mode.overlay,
+                            types: [],
+                            strictbounds: false,
+                            //google_map_webservice package
+                            onError: (err) {
+                              print(err);
+                            });
 
-                    if (place != null) {
-                      //form google_maps_webservice package
-                      final plist = GoogleMapsPlaces(
-                        apiKey: googleApikey,
-                        apiHeaders: await GoogleApiHeaders().getHeaders(),
-                        //from google_api_headers package
-                      );
-                      String placeid = place.placeId ?? "0";
-                      final detail = await plist.getDetailsByPlaceId(placeid);
-                      final geometry = detail.result.geometry!;
-                      final lat = geometry.location.lat;
-                      final lang = geometry.location.lng;
-                      var newlatlang = LatLng(lat, lang);
+                        if (place != null) {
+                          //form google_maps_webservice package
+                          final plist = GoogleMapsPlaces(
+                            apiKey: googleApikey,
+                            apiHeaders: await GoogleApiHeaders().getHeaders(),
+                            //from google_api_headers package
+                          );
+                          String placeid = place.placeId ?? "0";
+                          final detail =
+                              await plist.getDetailsByPlaceId(placeid);
+                          final geometry = detail.result.geometry!;
+                          final lat = geometry.location.lat;
+                          final lang = geometry.location.lng;
+                          var newlatlang = LatLng(lat, lang);
 
-                      setState(() {
-                        location = place.description.toString();
-                        latlong = newlatlang;
-                        _initloc();
-                      });
-                      //move map camera to selected place with animation
-                      _mapController?.animateCamera(
-                          CameraUpdate.newCameraPosition(
-                              CameraPosition(target: newlatlang, zoom: 10)));
-                    }
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.all(15),
-                    child: Card(
-                      child: Container(
-                          padding: EdgeInsets.all(0),
-                          width: MediaQuery.of(context).size.width - 40,
-                          child: ListTile(
-                            title: Text(
-                              location,
-                              style: TextStyle(fontSize: 18),
-                            ),
-                            trailing: Icon(Icons.search),
-                            dense: true,
-                          )),
-                    ),
-                  )))
-        ],
-      ),
-    ));
+                          setState(() {
+                            location = place.description.toString();
+                            latlong = newlatlang;
+                            _initloc();
+                          });
+                          //move map camera to selected place with animation
+                          _mapController?.animateCamera(
+                              CameraUpdate.newCameraPosition(CameraPosition(
+                                  target: newlatlang, zoom: 10)));
+                        }
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.all(15),
+                        child: Card(
+                          child: Container(
+                              padding: EdgeInsets.all(0),
+                              width: MediaQuery.of(context).size.width - 40,
+                              child: ListTile(
+                                title: Text(
+                                  location,
+                                  style: TextStyle(fontSize: 18),
+                                ),
+                                trailing: Icon(Icons.search),
+                                dense: true,
+                              )),
+                        ),
+                      )))
+            ],
+          ),
+        ));
   }
 
   void _onLocChange(GoogleMapController controller) {
@@ -152,7 +153,7 @@ class _LocationMarkerScreenState extends State<LocationMarkerScreen> {
       //start listening after map is created
       stream.listen((List<DocumentSnapshot> documentList) {
         _updateMarkers(documentList);
-        var gata=documentList.first.data();
+        var gata = documentList.first.data();
       });
     });
   }
@@ -168,7 +169,7 @@ class _LocationMarkerScreenState extends State<LocationMarkerScreen> {
     });
   }
 
-  void _addMarker(double lat, double lng,EventsData data,String e_key) {
+  void _addMarker(double lat, double lng, EventsData data, String e_key) {
     final id = MarkerId(lat.toString() + lng.toString());
     final _marker = Marker(
       markerId: id,
@@ -176,12 +177,18 @@ class _LocationMarkerScreenState extends State<LocationMarkerScreen> {
       icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueViolet),
       infoWindow: InfoWindow(
         title: data.name.toUpperCase(),
-        snippet: data.start_date+" "+data.start_time+" - "+data.end_date+" "+data.end_time,
+        snippet: data.start_date +
+            " " +
+            data.start_time +
+            " - " +
+            data.end_date +
+            " " +
+            data.end_time,
         onTap: () async {
           await Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => EventDeatilsWidget(data,e_key),
+              builder: (context) => EventDeatilsWidget(data, e_key),
             ),
           );
         },
@@ -198,7 +205,8 @@ class _LocationMarkerScreenState extends State<LocationMarkerScreen> {
       final data = document.data() as Map<String, dynamic>;
       final GeoPoint point = data['position']['geopoint'];
       final user = EventsData.fromMap(data);
-      _addMarker(point.latitude, point.longitude,user,data.entries.elementAt(11).value);
+      _addMarker(point.latitude, point.longitude, user,
+          data.entries.elementAt(11).value);
       list.add(user);
     });
     print(list);

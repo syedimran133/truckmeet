@@ -1,10 +1,12 @@
 import 'dart:async';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:truckmeet/src/screens/Login.dart';
 
 import '../../main.dart';
+import 'MyNavigationBar.dart';
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -15,10 +17,24 @@ class SplashScreenState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
+    FirebaseAuth _auth = FirebaseAuth.instance;
+    User? user = _auth.currentUser;
     Timer(
         Duration(seconds: 5),
-        () => Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => Login())));
+        () => {
+              if (user == null)
+                {
+                  Navigator.pushReplacement(
+                      context, MaterialPageRoute(builder: (context) => Login()))
+                }
+              else
+                {
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => MyNavigationBar()))
+                }
+            });
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification?.android;

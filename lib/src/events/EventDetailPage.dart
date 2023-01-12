@@ -45,8 +45,7 @@ class _DetailPageState extends State<EventsDetailPage> {
   bool haspermission = false;
   LocationPermission permission;
   Position position;
-  String long = "",
-      lat = "";
+  String long = "", lat = "";
   StreamSubscription<Position> positionStream;
   FirebaseStorage storage = FirebaseStorage.instance;
   String dropDownValue1;
@@ -73,8 +72,7 @@ class _DetailPageState extends State<EventsDetailPage> {
   CameraPosition cameraPosition;
   LatLng newlatlang = LatLng(27.6602292, 85.308027);
   String location = "Location";
-  File _image = File('images/upload.png'),
-      image;
+  File _image = File('images/upload.png'), image;
   String _uploadedFileURL;
   bool isLoading = false;
   bool isUploaded = false;
@@ -162,26 +160,25 @@ class _DetailPageState extends State<EventsDetailPage> {
                       children: <Widget>[
                         _image != null
                             ? isLoading
-                            ? CircularProgressIndicator()
-                            : Align(
-                          alignment: const AlignmentDirectional(0, 0),
-                          child: Padding(
-                              padding: const EdgeInsetsDirectional
-                                  .fromSTEB(0, 10, 0, 0),
-                              child: InkWell(
-                                onTap: chooseFile,
-                                child: Image.file(
-                                  _image,
-                                  //width: MediaQuery.of(context).size.width * 0.8,
-                                  height: MediaQuery
-                                      .of(context)
-                                      .size
-                                      .height *
-                                      0.15,
-                                  fit: BoxFit.fill,
-                                ),
-                              )),
-                        )
+                                ? CircularProgressIndicator()
+                                : Align(
+                                    alignment: const AlignmentDirectional(0, 0),
+                                    child: Padding(
+                                        padding: const EdgeInsetsDirectional
+                                            .fromSTEB(0, 10, 0, 0),
+                                        child: InkWell(
+                                          onTap: chooseFile,
+                                          child: Image.file(
+                                            _image,
+                                            //width: MediaQuery.of(context).size.width * 0.8,
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.15,
+                                            fit: BoxFit.fill,
+                                          ),
+                                        )),
+                                  )
                             : Column()
                       ],
                     ),
@@ -190,31 +187,30 @@ class _DetailPageState extends State<EventsDetailPage> {
                       children: <Widget>[
                         _image != null
                             ? isLoading
-                            ? CircularProgressIndicator()
-                            : Align(
-                          alignment: const AlignmentDirectional(0, 0),
-                          child: Padding(
-                              padding: const EdgeInsetsDirectional
-                                  .fromSTEB(0, 10, 0, 0),
-                              child: InkWell(
-                                onTap: chooseFile,
-                                child: Image.network(
-                                  _uploadedFileURL,
-                                  height: MediaQuery
-                                      .of(context)
-                                      .size
-                                      .height *
-                                      0.15,
-                                  fit: BoxFit.contain,
-                                ),
-                              )),
-                        )
+                                ? CircularProgressIndicator()
+                                : Align(
+                                    alignment: const AlignmentDirectional(0, 0),
+                                    child: Padding(
+                                        padding: const EdgeInsetsDirectional
+                                            .fromSTEB(0, 10, 0, 0),
+                                        child: InkWell(
+                                          onTap: chooseFile,
+                                          child: Image.network(
+                                            _uploadedFileURL,
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.15,
+                                            fit: BoxFit.contain,
+                                          ),
+                                        )),
+                                  )
                             : Column()
                       ],
                     ),
                   Padding(
                     padding:
-                    const EdgeInsetsDirectional.fromSTEB(25, 10, 25, 0),
+                        const EdgeInsetsDirectional.fromSTEB(25, 10, 25, 0),
                     child: Padding(
                       padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
                       child: DecoratedBox(
@@ -232,7 +228,7 @@ class _DetailPageState extends State<EventsDetailPage> {
                               ]),
                           child: Padding(
                               padding:
-                              const EdgeInsets.only(left: 10, right: 30),
+                                  const EdgeInsets.only(left: 10, right: 30),
                               child: DropdownButton(
                                 value: newValue,
                                 items: const [
@@ -266,7 +262,7 @@ class _DetailPageState extends State<EventsDetailPage> {
                                   });
                                 },
                                 icon: const Padding(
-                                  //Icon at tail, arrow bottom is default icon
+                                    //Icon at tail, arrow bottom is default icon
                                     padding: EdgeInsets.only(left: 20),
                                     child: Icon(Icons.arrow_drop_down)),
                                 iconEnabledColor: Colors.black,
@@ -288,7 +284,7 @@ class _DetailPageState extends State<EventsDetailPage> {
                   ),
                   Padding(
                     padding:
-                    const EdgeInsetsDirectional.fromSTEB(25, 10, 25, 0),
+                        const EdgeInsetsDirectional.fromSTEB(25, 10, 25, 0),
                     child: Padding(
                       padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
                       child: DecoratedBox(
@@ -306,7 +302,7 @@ class _DetailPageState extends State<EventsDetailPage> {
                               ]),
                           child: Padding(
                               padding:
-                              const EdgeInsets.only(left: 10, right: 30),
+                                  const EdgeInsets.only(left: 10, right: 30),
                               child: DropdownButton(
                                 value: value2,
                                 items: const [
@@ -329,7 +325,7 @@ class _DetailPageState extends State<EventsDetailPage> {
                                   });
                                 },
                                 icon: const Padding(
-                                  //Icon at tail, arrow bottom is default icon
+                                    //Icon at tail, arrow bottom is default icon
                                     padding: EdgeInsets.only(left: 20),
                                     child: Icon(Icons.arrow_drop_down)),
                                 iconEnabledColor: Colors.black,
@@ -351,7 +347,7 @@ class _DetailPageState extends State<EventsDetailPage> {
                   ),
                   Padding(
                     padding:
-                    const EdgeInsetsDirectional.fromSTEB(25, 10, 25, 0),
+                        const EdgeInsetsDirectional.fromSTEB(25, 10, 25, 0),
                     child: TextFormField(
                       controller: textController1,
                       autofocus: true,
@@ -404,7 +400,7 @@ class _DetailPageState extends State<EventsDetailPage> {
                   ),
                   Padding(
                     padding:
-                    const EdgeInsetsDirectional.fromSTEB(25, 10, 25, 0),
+                        const EdgeInsetsDirectional.fromSTEB(25, 10, 25, 0),
                     child: TextFormField(
                       controller: textController2,
                       autofocus: true,
@@ -479,12 +475,12 @@ class _DetailPageState extends State<EventsDetailPage> {
                               final plist = GoogleMapsPlaces(
                                 apiKey: googleApikey,
                                 apiHeaders:
-                                await GoogleApiHeaders().getHeaders(),
+                                    await GoogleApiHeaders().getHeaders(),
                                 //from google_api_headers package
                               );
                               String placeid = place.placeId ?? "0";
                               final detail =
-                              await plist.getDetailsByPlaceId(placeid);
+                                  await plist.getDetailsByPlaceId(placeid);
                               final geometry = detail.result.geometry;
                               final lat = geometry.location.lat;
                               final lang = geometry.location.lng;
@@ -550,7 +546,7 @@ class _DetailPageState extends State<EventsDetailPage> {
                       children: [
                         Padding(
                           padding:
-                          const EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
+                              const EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
                           child: SizedBox(
                             height: 50,
                             width: 160,
@@ -572,8 +568,8 @@ class _DetailPageState extends State<EventsDetailPage> {
                                     print(pickedDate);
                                   } //pickedDate output format => 2021-03-10 00:00:00.000
                                   String formattedDate =
-                                  DateFormat('yyyy-MM-dd')
-                                      .format(pickedDate);
+                                      DateFormat('yyyy-MM-dd')
+                                          .format(pickedDate);
                                   if (kDebugMode) {
                                     print(formattedDate);
                                   } //formatted date output using intl package =>  2021-03-16
@@ -593,38 +589,40 @@ class _DetailPageState extends State<EventsDetailPage> {
                                 ),
                                 shape: RoundedRectangleBorder(
                                   borderRadius:
-                                  BorderRadius.circular(12), // <-- Radius
+                                      BorderRadius.circular(12), // <-- Radius
                                 ),
                               ),
                               child: Text(start_date),
                             ),
                           ),
                         ),
-                        Padding(
-                          padding:
-                          const EdgeInsetsDirectional.fromSTEB(15, 0, 0, 0),
-                          child: SizedBox(
-                            height: 50,
-                            width: 160,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                _selectTime(context);
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.white,
-                                foregroundColor: Colors.black,
-                                minimumSize: const Size.fromHeight(50),
-                                textStyle: const TextStyle(
-                                  fontFamily: 'Poppins',
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.normal,
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
+                                15, 0, 0, 0),
+                            child: SizedBox(
+                              height: 50,
+                              width: 160,
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  _selectTime(context);
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.white,
+                                  foregroundColor: Colors.black,
+                                  minimumSize: const Size.fromHeight(50),
+                                  textStyle: const TextStyle(
+                                    fontFamily: 'Poppins',
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.circular(12), // <-- Radius
+                                  ),
                                 ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                  BorderRadius.circular(12), // <-- Radius
-                                ),
+                                child: Text(start_time),
                               ),
-                              child: Text(start_time),
                             ),
                           ),
                         ),
@@ -633,13 +631,13 @@ class _DetailPageState extends State<EventsDetailPage> {
                   ),
                   Padding(
                     padding:
-                    const EdgeInsetsDirectional.fromSTEB(25, 10, 25, 0),
+                        const EdgeInsetsDirectional.fromSTEB(25, 10, 25, 0),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Padding(
                           padding:
-                          const EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
+                              const EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
                           child: SizedBox(
                             height: 50,
                             width: 160,
@@ -657,8 +655,8 @@ class _DetailPageState extends State<EventsDetailPage> {
                                     print(pickedDate);
                                   } //pickedDate output format => 2021-03-10 00:00:00.000
                                   String formattedDate =
-                                  DateFormat('yyyy-MM-dd')
-                                      .format(pickedDate);
+                                      DateFormat('yyyy-MM-dd')
+                                          .format(pickedDate);
                                   if (kDebugMode) {
                                     print(formattedDate);
                                   } //formatted date output using intl package =>  2021-03-16
@@ -678,38 +676,40 @@ class _DetailPageState extends State<EventsDetailPage> {
                                 ),
                                 shape: RoundedRectangleBorder(
                                   borderRadius:
-                                  BorderRadius.circular(12), // <-- Radius
+                                      BorderRadius.circular(12), // <-- Radius
                                 ),
                               ),
                               child: Text(end_date),
                             ),
                           ),
                         ),
-                        Padding(
-                          padding:
-                          const EdgeInsetsDirectional.fromSTEB(15, 0, 0, 0),
-                          child: SizedBox(
-                            height: 50,
-                            width: 160,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                _selectTime2(context);
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.white,
-                                foregroundColor: Colors.black,
-                                minimumSize: const Size.fromHeight(50),
-                                textStyle: const TextStyle(
-                                  fontFamily: 'Poppins',
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.normal,
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
+                                15, 0, 0, 0),
+                            child: SizedBox(
+                              height: 50,
+                              width: 160,
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  _selectTime2(context);
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.white,
+                                  foregroundColor: Colors.black,
+                                  minimumSize: const Size.fromHeight(50),
+                                  textStyle: const TextStyle(
+                                    fontFamily: 'Poppins',
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.circular(12), // <-- Radius
+                                  ),
                                 ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                  BorderRadius.circular(12), // <-- Radius
-                                ),
+                                child: Text(end_time),
                               ),
-                              child: Text(end_time),
                             ),
                           ),
                         ),
@@ -718,7 +718,7 @@ class _DetailPageState extends State<EventsDetailPage> {
                   ),
                   Padding(
                     padding:
-                    const EdgeInsetsDirectional.fromSTEB(25, 30, 25, 0),
+                        const EdgeInsetsDirectional.fromSTEB(25, 30, 25, 0),
                     child: ElevatedButton(
                       onPressed: () async {
                         /*  if (_formkey.currentState.validate()) {
@@ -738,7 +738,7 @@ class _DetailPageState extends State<EventsDetailPage> {
                               latitude: newlatlang.latitude,
                               longitude: newlatlang.longitude);
                           DatabaseReference ref2 =
-                          FirebaseDatabase.instance.ref(pathToReference);
+                              FirebaseDatabase.instance.ref(pathToReference);
                           ref2.update({
                             "meet_type": newValue,
                             "event_type": value2,
@@ -900,7 +900,7 @@ class _DetailPageState extends State<EventsDetailPage> {
         "path": file.fullPath,
         "uploaded_by": fileMeta.customMetadata['uploaded_by'] ?? 'Nobody',
         "description":
-        fileMeta.customMetadata['description'] ?? 'No description'
+            fileMeta.customMetadata['description'] ?? 'No description'
       });
     });
     return files;
