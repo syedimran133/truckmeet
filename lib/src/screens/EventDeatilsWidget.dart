@@ -14,9 +14,8 @@ import 'AttendeeList.dart';
 
 class EventDeatilsWidget extends StatefulWidget {
   EventsData data;
-  String e_key;
 
-  EventDeatilsWidget(this.data, this.e_key, {Key key}) : super(key: key);
+  EventDeatilsWidget(this.data,  {Key key}) : super(key: key);
 
   @override
   _EventDeatilsWidgetState createState() => _EventDeatilsWidgetState();
@@ -64,7 +63,7 @@ class _EventDeatilsWidgetState extends State<EventDeatilsWidget> {
     start_time = widget.data.start_time;
     event_uid = widget.data.uid;
     event_id = widget.data.event_id;
-    id = widget.e_key;
+    id = widget.data.event_id;
 
     _markers.add(Marker(
       // given marker id

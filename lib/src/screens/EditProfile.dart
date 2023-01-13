@@ -252,6 +252,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                     child: const Text('SEND'),
                   ),
                 ),
+
               ],
             ),
           ),

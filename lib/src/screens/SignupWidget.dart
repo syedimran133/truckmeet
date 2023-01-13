@@ -41,9 +41,11 @@ class _SignupWidgetState extends State<SignupWidget> {
     tc_password = TextEditingController();
     tc_confirm_pass = TextEditingController();
   }
+
   Future<void> _signOut() async {
     await FirebaseAuth.instance.signOut();
   }
+
   Future signUp({String email, String password}) async {
     try {
       showDialog(
@@ -507,7 +509,10 @@ class _SignupWidgetState extends State<SignupWidget> {
                                     .then((value) => {
                                           if (value == null)
                                             {
-                                              ref.child("user").child(userCredential.uid).set({
+                                              ref
+                                                  .child("user")
+                                                  .child(userCredential.uid)
+                                                  .set({
                                                 "name": tc_name?.value.text,
                                                 "email": _email,
                                                 "loginDate": formattedDate,

@@ -352,9 +352,116 @@ class _SettingWidgetState extends State<SettingWidget> {
                   ),
                 ),
               ),
+              Expanded(
+                child: Align(
+                    alignment: AlignmentDirectional(0.05, 0.9),
+                    child: Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(0, 15, 0, 0),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          InkWell(
+                            onTap: () async {
+                              /*    await Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => SignupWidget(),
+                                    ),
+                                  );*/
+                            },
+                            child: Container(
+                              width: 35,
+                              height: 35,
+                              decoration: BoxDecoration(
+                                color: Color(0xFFFF0000),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Align(
+                                alignment: AlignmentDirectional(0, 0),
+                                child: Image.asset(
+                                  'images/google.png',
+                                  width: 30,
+                                  height: 30,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding:
+                            EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
+                            child: Container(
+                              width: 35,
+                              height: 35,
+                              constraints: BoxConstraints(
+                                maxWidth: 100,
+                                maxHeight: 100,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Color(0xFF0A66C2),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(8),
+                                child: Image.asset(
+                                  'images/linkin.png',
+                                  width: 30,
+                                  height: 30,
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding:
+                            EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
+                            child: Container(
+                                width: 35,
+                                height: 35,
+                                decoration: BoxDecoration(
+                                  color: Color(0xFF3b5998),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      0, 5, 0, 5),
+                                  child: Image.asset(
+                                    'images/facebook.png',
+                                    width: MediaQuery.of(context).size.width *
+                                        0.1,
+                                    height: 30,
+                                    fit: BoxFit.fitHeight,
+                                  ),
+                                )),
+                          ),
+                          Padding(
+                            padding:
+                            EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
+                            child: Container(
+                              width: 35,
+                              height: 35,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Image.asset(
+                                'images/twitter.png',
+                                width: 30,
+                                height: 30,
+                                fit: BoxFit.scaleDown,
+                              ),
+                            ),
+                          ),
+
+                        ],
+                      ),
+                    )),
+              ),
             ],
           ),
         ),
+
       ),
     );
   }

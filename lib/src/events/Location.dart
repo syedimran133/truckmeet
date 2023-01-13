@@ -177,7 +177,7 @@ class _LocationMarkerScreenState extends State<LocationMarkerScreen> {
     });
   }
 
-  void _addMarker(double lat, double lng, EventsData data, String e_key) {
+  void _addMarker(double lat, double lng, EventsData data) {
     try {
       final id = MarkerId(lat.toString() + lng.toString());
       final _marker = Marker(
@@ -197,7 +197,7 @@ class _LocationMarkerScreenState extends State<LocationMarkerScreen> {
             await Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => EventDeatilsWidget(data, e_key),
+                builder: (context) => EventDeatilsWidget(data),
               ),
             );
           },
@@ -218,8 +218,7 @@ class _LocationMarkerScreenState extends State<LocationMarkerScreen> {
         final data = document.data() as Map<String, dynamic>;
         final GeoPoint point = data['position']['geopoint'];
         final user = EventsData.fromMap(data);
-        _addMarker(point.latitude, point.longitude, user,
-            data.entries.elementAt(11).value);
+        _addMarker(point.latitude, point.longitude, user);
         list.add(user);
       });
       print(list);
