@@ -67,7 +67,7 @@ class _EventDeatilsWidgetState extends State<EventDeatilsWidget> {
 
     _markers.add(Marker(
       // given marker id
-      markerId: MarkerId("0"),
+      markerId: MarkerId(id),
       // given marker icon
       icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueViolet),
       // given position

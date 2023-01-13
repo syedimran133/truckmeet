@@ -6,7 +6,8 @@ import 'package:truckmeet/src/screens/AddTruckDetails.dart';
 import 'package:truckmeet/src/screens/EditProfile.dart';
 import 'package:truckmeet/src/screens/Login.dart';
 import 'package:truckmeet/src/screens/WebViewContainer.dart';
-
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import '../events/DatabaseService.dart';
 import '../events/EmployeeListView.dart';
 
@@ -19,23 +20,54 @@ class SettingWidget extends StatefulWidget {
 
 class _SettingWidgetState extends State<SettingWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
+
   String about_us = "";
   String privacy_policy = "";
   String tnc = "";
+
+  String facebook_native = "";
+  String facebook_web = "";
+  String google_native = "";
+  String google_web = "";
+  String insta_native = "";
+  String insta_web = "";
+  String twitter_native = "";
+  String twitter_web = "";
 
   @override
   void initState() {
     super.initState();
     _setupNeeds();
   }
+
+  _launchApp(String webUrl, String nativeUrl) async {
+    try {
+      await launchUrlString(nativeUrl, mode: LaunchMode.externalApplication);
+    } catch (e) {
+      print(e);
+      await launchUrlString(webUrl, mode: LaunchMode.platformDefault);
+    }
+  }
+
   _setupNeeds() async {
-    final v=await DatabaseService.getUrls();
+    final v1 = await DatabaseService.getUrls();
+    final v2 = await DatabaseService.getR_Urls();
     setState(() {
-      about_us = v.about_us;
-      privacy_policy = v.privacy_policy;
-      tnc = v.tnc;
+      about_us = v1.about_us;
+      privacy_policy = v1.privacy_policy;
+      tnc = v1.tnc;
+
+      facebook_native = v2.facebook_native;
+      facebook_web = v2.facebook_web;
+      google_native = v2.google_native;
+      google_web = v2.google_web;
+      insta_native = v2.insta_native;
+      insta_web = v2.insta_web;
+      twitter_native = v2.twitter_native;
+      twitter_web = v2.twitter_web;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,7 +105,7 @@ class _SettingWidgetState extends State<SettingWidget> {
                 },
                 child: Container(
                   width: double.infinity,
-                  height: 55,
+                  height: 45,
                   decoration: const BoxDecoration(
                     color: Colors.black,
                   ),
@@ -86,7 +118,6 @@ class _SettingWidgetState extends State<SettingWidget> {
                         style: TextStyle(
                             fontFamily: 'Poppins',
                             color: Colors.white,
-                            fontSize: 18.0,
                             fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -107,7 +138,7 @@ class _SettingWidgetState extends State<SettingWidget> {
                 },
                 child: Container(
                   width: double.infinity,
-                  height: 55,
+                  height: 45,
                   decoration: const BoxDecoration(
                     color: Colors.black,
                   ),
@@ -120,7 +151,6 @@ class _SettingWidgetState extends State<SettingWidget> {
                         style: TextStyle(
                             fontFamily: 'Poppins',
                             color: Colors.white,
-                            fontSize: 18.0,
                             fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -141,7 +171,7 @@ class _SettingWidgetState extends State<SettingWidget> {
                 },
                 child: Container(
                   width: double.infinity,
-                  height: 55,
+                  height: 45,
                   decoration: const BoxDecoration(
                     color: Colors.black,
                   ),
@@ -154,7 +184,6 @@ class _SettingWidgetState extends State<SettingWidget> {
                         style: TextStyle(
                             fontFamily: 'Poppins',
                             color: Colors.white,
-                            fontSize: 18.0,
                             fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -175,7 +204,7 @@ class _SettingWidgetState extends State<SettingWidget> {
                 },
                 child: Container(
                   width: double.infinity,
-                  height: 55,
+                  height: 45,
                   decoration: const BoxDecoration(
                     color: Colors.black,
                   ),
@@ -188,7 +217,6 @@ class _SettingWidgetState extends State<SettingWidget> {
                         style: TextStyle(
                             fontFamily: 'Poppins',
                             color: Colors.white,
-                            fontSize: 18.0,
                             fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -227,7 +255,7 @@ class _SettingWidgetState extends State<SettingWidget> {
                 },
                 child: Container(
                   width: double.infinity,
-                  height: 55,
+                  height: 45,
                   decoration: const BoxDecoration(
                     color: Colors.black,
                   ),
@@ -240,7 +268,6 @@ class _SettingWidgetState extends State<SettingWidget> {
                         style: TextStyle(
                             fontFamily: 'Poppins',
                             color: Colors.white,
-                            fontSize: 18.0,
                             fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -262,7 +289,7 @@ class _SettingWidgetState extends State<SettingWidget> {
                 },
                 child: Container(
                   width: double.infinity,
-                  height: 55,
+                  height: 45,
                   decoration: const BoxDecoration(
                     color: Colors.black,
                   ),
@@ -275,7 +302,6 @@ class _SettingWidgetState extends State<SettingWidget> {
                         style: TextStyle(
                             fontFamily: 'Poppins',
                             color: Colors.white,
-                            fontSize: 18.0,
                             fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -297,7 +323,7 @@ class _SettingWidgetState extends State<SettingWidget> {
                 },
                 child: Container(
                   width: double.infinity,
-                  height: 55,
+                  height: 45,
                   decoration: const BoxDecoration(
                     color: Colors.black,
                   ),
@@ -310,7 +336,6 @@ class _SettingWidgetState extends State<SettingWidget> {
                         style: TextStyle(
                             fontFamily: 'Poppins',
                             color: Colors.white,
-                            fontSize: 18.0,
                             fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -332,7 +357,7 @@ class _SettingWidgetState extends State<SettingWidget> {
                 },
                 child: Container(
                   width: double.infinity,
-                  height: 55,
+                  height: 45,
                   decoration: const BoxDecoration(
                     color: Colors.black,
                   ),
@@ -345,7 +370,6 @@ class _SettingWidgetState extends State<SettingWidget> {
                         style: TextStyle(
                             fontFamily: 'Poppins',
                             color: Colors.white,
-                            fontSize: 18.0,
                             fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -362,35 +386,9 @@ class _SettingWidgetState extends State<SettingWidget> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           InkWell(
-                            onTap: () async {
-                              /*    await Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => SignupWidget(),
-                                    ),
-                                  );*/
+                            onTap: () {
+                              _launchApp(insta_web, insta_native);
                             },
-                            child: Container(
-                              width: 35,
-                              height: 35,
-                              decoration: BoxDecoration(
-                                color: Color(0xFFFF0000),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Align(
-                                alignment: AlignmentDirectional(0, 0),
-                                child: Image.asset(
-                                  'images/google.png',
-                                  width: 30,
-                                  height: 30,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding:
-                            EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
                             child: Container(
                               width: 35,
                               height: 35,
@@ -415,45 +413,80 @@ class _SettingWidgetState extends State<SettingWidget> {
                           ),
                           Padding(
                             padding:
-                            EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
-                            child: Container(
+                                EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
+                            child: InkWell(
+                              onTap: () {
+                                _launchApp(google_web, google_native);
+                              },
+                              child: Container(
                                 width: 35,
                                 height: 35,
                                 decoration: BoxDecoration(
-                                  color: Color(0xFF3b5998),
+                                  color: Color(0xFFFF0000),
                                   borderRadius: BorderRadius.circular(8),
                                 ),
-                                child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      0, 5, 0, 5),
+                                child: Align(
+                                  alignment: AlignmentDirectional(0, 0),
                                   child: Image.asset(
-                                    'images/facebook.png',
-                                    width: MediaQuery.of(context).size.width *
-                                        0.1,
+                                    'images/google.png',
+                                    width: 30,
                                     height: 30,
-                                    fit: BoxFit.fitHeight,
+                                    fit: BoxFit.cover,
                                   ),
-                                )),
-                          ),
-                          Padding(
-                            padding:
-                            EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
-                            child: Container(
-                              width: 35,
-                              height: 35,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Image.asset(
-                                'images/twitter.png',
-                                width: 30,
-                                height: 30,
-                                fit: BoxFit.scaleDown,
+                                ),
                               ),
                             ),
                           ),
-
+                          Padding(
+                            padding:
+                                EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
+                            child: InkWell(
+                              onTap: () {
+                                _launchApp(facebook_web, facebook_native);
+                              },
+                              child: Container(
+                                  width: 35,
+                                  height: 35,
+                                  decoration: BoxDecoration(
+                                    color: Color(0xFF3b5998),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        0, 5, 0, 5),
+                                    child: Image.asset(
+                                      'images/facebook.png',
+                                      width: MediaQuery.of(context).size.width *
+                                          0.1,
+                                      height: 30,
+                                      fit: BoxFit.fitHeight,
+                                    ),
+                                  )),
+                            ),
+                          ),
+                          Padding(
+                            padding:
+                                EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
+                            child: InkWell(
+                              onTap: () {
+                                _launchApp(twitter_web, twitter_native);
+                              },
+                              child: Container(
+                                width: 35,
+                                height: 35,
+                                decoration: BoxDecoration(
+                                  color: Color(0xFF1DA1F2),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Image.asset(
+                                  'images/twitter.png',
+                                  width: 30,
+                                  height: 30,
+                                  fit: BoxFit.scaleDown,
+                                ),
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     )),
@@ -461,7 +494,6 @@ class _SettingWidgetState extends State<SettingWidget> {
             ],
           ),
         ),
-
       ),
     );
   }
